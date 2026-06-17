@@ -232,17 +232,27 @@ Nenhuma entrega fecha sem responder “sim” às três camadas da marca. Faltou
 
 ## 9. Divisão de ferramentas por fase
 
-Cada fase roda na ferramenta certa: o planejamento conversa no Claude (web); a execução pesada
-vive no Claude Code (máquina).
+Todo o ciclo roda dentro do **VSCode + extensão Claude Code** — interface visual, markdown renderizado e acesso direto ao repositório. A única exceção é a Fase 2b, que usa o Claude Design para geração de interface.
 
 | Fase | Ferramenta | Por quê |
 |---|---|---|
-| 1 · Spec Viva | Claude (web) | Conversa exploratória com o cliente. |
-| 2a · Direção Visual | Claude (web) | Decisão estratégica + style tiles. |
-| 2b · Layout | Claude Design | Gera código de interface. |
-| 3 · Blueprint | Claude (web) ou Code | Documento; pode ir direto para o repositório. |
-| 4 · Esteira XP / TDD | Claude Code (máquina) | Precisa ler/escrever código e rodar testes. |
-| 5 · Homologação | Claude Code (máquina) | Docker, scripts e deploy. |
+| 1 · Spec Viva | Claude Code / VSCode | Escreve `CLAUDE.md` e `spec.md` direto no repositório. |
+| 2a · Direção Visual | Claude Code / VSCode | Decisão estratégica de marca; gera `tokens.css` + `DESIGN.md`. |
+| 2b · Layout | Claude Design | Recurso exclusivo de geração visual de interface. |
+| 3 · Blueprint | Claude Code / VSCode | Escreve `ROADMAP.md` direto no repositório. |
+| 4 · Esteira XP / TDD | Claude Code / VSCode | Lê/escreve código e roda testes. |
+| 5 · Homologação | Claude Code / VSCode | Docker, scripts e deploy. |
+
+### Ponto de entrada por fase
+
+| Fase | Onde | Comando / ação |
+|---|---|---|
+| 0 · Scaffolding | Terminal | `git clone onda-starter nome-do-projeto && code .` |
+| 1 · Spec Viva | VSCode / Claude Code | `/onda-spec-viva` |
+| 2b · Layout | VSCode / Claude Code | `/onda-layout` |
+| 3 · Blueprint | VSCode / Claude Code | `/onda-blueprint` |
+| 4 · Esteira XP | VSCode / Claude Code | Diretiva Primária + ciclo TDD por módulo |
+| 5 · Homologação | VSCode / Claude Code | Smoke test + validação + deploy |
 
 ---
 
