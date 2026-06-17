@@ -86,7 +86,7 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
 - **Atividades:**
   1. Briefing que destrava o escopo (público, dores, regras, volume).
   2. Mapeamento de épicos.
-  3. Quebra em histórias de usuário ("Como [X], quero [Y] para [Z]").
+  3. Quebra em histórias de usuário (“Como [X], quero [Y] para [Z]”).
   4. Critérios de aceite no formato dado-quando-então.
   5. Geração do `CLAUDE.md` + `spec.md`.
 - **Decisão — G1:** *Requisitos claros o suficiente?* Não → volta ao briefing. Sim → avança.
@@ -123,7 +123,7 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
 ### Fase 4 — Esteira XP (codificação por módulo)
 *Fluxo contínuo (Kanban), consumindo o `ROADMAP.md`. Pesado no terminal (Claude Code).*
 
-- **Abertura — Diretiva Primária:** "Leia o `CLAUDE.md` e o `ROADMAP.md`; a partir de agora, não altere a sintaxe do código existente."
+- **Abertura — Diretiva Primária:** “Leia o `CLAUDE.md` e o `ROADMAP.md`; a partir de agora, não altere a sintaxe do código existente.”
 - **Ciclo TDD:**
   - **Red:** IA escreve testes com mocks; eles falham.
   - **Green:** só o código necessário para passar.
@@ -178,7 +178,7 @@ Mudança não é exceção — é parte do processo, com pontos de retorno bem d
 destrua trabalho já feito.
 
 **Retorno à Fase 1 — funcionalidade nova.** Se o cliente pede uma feature nova no meio da Fase 4
-(ex.: "adicionar PIX"), **não se codifica na hora**. O fluxo volta à Fase 1: atualiza-se o
+(ex.: “adicionar PIX”), **não se codifica na hora**. O fluxo volta à Fase 1: atualiza-se o
 `CLAUDE.md` com a nova história, a IA lê a regra, atualiza os testes e **só então** codifica.
 
 **Retorno à Fase 2 — mudança no visual congelado.** Alterar o visual já aprovado enquanto o
@@ -189,7 +189,7 @@ exige aditivo de prazo, medido com o mesmo peso de módulo.
 
 ## 7. Previsibilidade — o prazo calculado
 
-Para um desenvolvedor solo com IA, estimar por "horas" é ineficaz. A métrica é o **peso dos
+Para um desenvolvedor solo com IA, estimar por “horas” é ineficaz. A métrica é o **peso dos
 módulos** do `ROADMAP.md` (Complexidade + Risco), não horas.
 
 | Peso | Dias | Características |
@@ -222,7 +222,7 @@ Cliente traz a própria identidade (Fase 2 = 2d). O `ROADMAP.md` tem 2 módulos 
 
 ## 8. Definição de pronto — o filtro de qualidade
 
-Nenhuma entrega fecha sem responder "sim" às três camadas da marca. Faltou uma, não está pronto.
+Nenhuma entrega fecha sem responder “sim” às três camadas da marca. Faltou uma, não está pronto.
 
 - **Belo — no design.** Bate com a identidade do projeto aprovada na Fase 2: hierarquia clara, estética cuidada.
 - **Fluido — nas funcionalidades.** Funciona sem atrito; estados de erro e carregamento tratados. Se trava ou falha, não é fluido.
