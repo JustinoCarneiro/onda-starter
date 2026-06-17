@@ -246,6 +246,69 @@ vive no Claude Code (máquina).
 
 ---
 
+## 10. Configuração e migração de ambiente
+
+O ecossistema de desenvolvimento da Onda — skills, agentes e ferramentas — está versionado no próprio `onda-starter`, dentro da pasta `setup/`. Isso garante que qualquer máquina nova seja configurada de forma idêntica em minutos, sem dependência de memória ou configuração manual.
+
+### Estrutura de setup
+
+```
+onda-starter/
+└── setup/
+    ├── install.sh              ← script de instalação automatizada
+    ├── CHECKLIST.md            ← passos manuais restantes
+    └── claude/
+        ├── commands/           ← todas as skills (/onda-novo, /onda-spec-viva, perfis…)
+        └── agents/             ← agentes (revisor-seguranca, testador-tdd, explorador)
+```
+
+### Situação: troca ou formatação de máquina
+
+Ao migrar para uma nova máquina, o processo completo é:
+
+```bash
+# 1. Clonar o template (que contém o setup)
+git clone https://github.com/JustinoCarneiro/onda-starter.git
+cd onda-starter
+
+# 2. Rodar o instalador — configura todas as ferramentas e skills automaticamente
+bash setup/install.sh
+
+# 3. Completar os passos manuais (auth, VSCode, PAT)
+cat setup/CHECKLIST.md
+```
+
+O `install.sh` instala e configura automaticamente: Git, Node.js (via nvm), Docker, GitHub CLI e Claude Code, e copia todas as skills e agentes para `~/.claude/`.
+
+### O que é automatizado vs. manual
+
+| Item | Automatizado | Manual |
+|---|---|---|
+| Git + identidade | ✅ | — |
+| Node.js 20 via nvm | ✅ | — |
+| Docker Engine | ✅ | — |
+| GitHub CLI (`gh`) | ✅ | — |
+| Claude Code CLI | ✅ | — |
+| Skills e agentes `~/.claude/` | ✅ | — |
+| Login Anthropic (`claude auth login`) | — | ✅ |
+| Login GitHub (`gh auth login`) | — | ✅ |
+| GitHub PAT (repo + workflow) | — | ✅ |
+| VSCode + extensão Claude Code | — | ✅ |
+| Chaves SSH para GitHub | — | ✅ (opcional) |
+
+### Situação: atualizar skills numa máquina existente
+
+Quando as skills ou agentes forem evoluídos, reaplicar na máquina local com:
+
+```bash
+cp setup/claude/commands/*.md ~/.claude/commands/
+cp setup/claude/agents/*.md ~/.claude/agents/
+```
+
+> **Regra:** `setup/claude/` é a fonte única da verdade para o ecossistema de skills. Toda nova skill ou agente deve ser adicionada lá antes de ser copiada para `~/.claude/`.
+
+---
+
 *Onda · Documento de processo — base para modelagem BPMN. Documento vivo: versionar a cada
 evolução do método. Toda decisão volta à pergunta-âncora:*
 **é belo no design, fluido no uso e seguro por dentro?**
