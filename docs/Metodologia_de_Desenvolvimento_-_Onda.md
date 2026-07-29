@@ -57,6 +57,7 @@ cliente e para o negócio.
 | Protótipo estático | Fase 2 | Interface aprovável, com dados fictícios. |
 | `ROADMAP.md` + contratos | Fase 3 | Planta técnica: módulos, pesos e contratos Request/Response. |
 | Commits / Small Releases | Fase 4 | Código testado e pronto para produção. |
+| `memoria-tecnica/` | Fase 4 (nasce vazia na Fase 0) | Memória técnica viva: bugs cabeludos e decisões tomadas fora da spec — ver seção 11. |
 | Deploy | Fase 5 | Software em produção. |
 
 ---
@@ -130,6 +131,7 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   - **Refactor:** aplica DRY e otimiza sem quebrar os testes.
   - **Segurança:** agente `revisor-seguranca` nos módulos de risco.
   - **Commit limpo** (Small Release).
+- **Memória técnica:** antes de investigar um bug ou decidir algo fora da spec, consultar `memoria-tecnica/`; ao resolver algo não-trivial, registrar lá (ver seção 11 — critério de quando vale a pena).
 - **Decisões:**
   - **G4 — Testes verdes?** Não → volta ao TDD.
   - **G5 — Pedido de mudança?** Sim → **retorno à Fase 1**.
@@ -149,6 +151,7 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   1. Smoke test local: subir o ambiente via Docker e rodar toda a esteira de testes.
   2. Validação humana de ponta a ponta.
   3. Revisão final de segurança.
+  4. Revisão manual da `memoria-tecnica/`: checar se ficou desatualizada e podar notas triviais (a IA popula por conta própria em melhor esforço, não é garantido — não assumir que está completa sem olhar).
 - **Decisão — G7:** *Smoke test + validação OK?* Não → **retorno à Fase 4**. Sim → avança.
 - **Saída:** **Deploy via CI/CD** → software em produção.
 - **Ator:** Humano valida · IA executa · Cliente recebe.
@@ -316,6 +319,63 @@ cp setup/claude/agents/*.md ~/.claude/agents/
 ```
 
 > **Regra:** `setup/claude/` é a fonte única da verdade para o ecossistema de skills. Toda nova skill ou agente deve ser adicionada lá antes de ser copiada para `~/.claude/`.
+
+---
+
+## 11. Memória Técnica Viva — padrão Obsidian
+
+*Piloto validado no projeto Sistema Melvin (jul/2026) antes de virar padrão.*
+
+### O que é e por quê
+
+`CLAUDE.md` e `ROADMAP.md` cobrem o que foi planejado. Mas todo projeto acumula, ao vivo, conhecimento
+que não estava na spec: um bug que exigiu investigação de causa raiz, uma decisão técnica tomada no
+meio da Fase 4 por um motivo que não é óbvio olhando só o código. Hoje esse conhecimento cai na memória
+do próprio agente — que é isolada por projeto, não versionada, e não sobrevive a uma troca de máquina
+ou ferramenta.
+
+`memoria-tecnica/` resolve isso como uma pasta comum dentro do repositório (não uma ferramenta externa):
+markdown puro, sem lock-in, que o Obsidian sabe abrir como *vault* pra navegação em grafo — mas que o
+Claude Code lê e escreve normalmente com ou sem o Obsidian aberto.
+
+### Estrutura
+
+```
+memoria-tecnica/
+├── _index.md         ← painel de entrada, lista bugs e decisões
+├── bugs/              ← causa raiz de bugs não-triviais já resolvidos
+├── decisoes/          ← decisões técnicas tomadas fora da spec original
+└── templates/         ← modelo de nota (bug.md, decisao.md)
+```
+
+Nasce vazia na Fase 0 (scaffolding) — não é um problema ela não ter nada útil ainda nos primeiros
+módulos; o valor se acumula com o tempo de vida do projeto, igual acontece com o Changelog de Escopo
+do `CLAUDE.md`.
+
+### Critério de quando criar uma nota
+
+Documentar só quando pelo menos um destes for verdade — evitar isso vira ruído e destrói o valor do
+padrão:
+- Exigiu investigação real (a causa não era óbvia a partir do stack trace ou do código).
+- A causa está fora do código-fonte visível (config de infra, comportamento de dependência externa, nginx, etc.).
+- É uma decisão que contradiz ou refina algo que já foi decidido antes — e alguém (humano ou IA) vai
+  precisar saber disso antes de mexer ali de novo.
+
+Não criar nota se o fato já tem um lar melhor e visível (ex.: já é critério de aceite no `CLAUDE.md`,
+ou já tem um aviso dedicado num checklist) — isso duplicaria a fonte de verdade em vez de complementá-la.
+
+### Ressalvas
+
+- **Não é automático.** A IA populando a `memoria-tecnica/` sozinha é melhor esforço, seguindo a
+  instrução do `CLAUDE.md` — não uma garantia de sistema. Por isso a Fase 5 tem um passo de revisão
+  manual (ver seção anterior).
+- **Escreva para humano ler primeiro.** O ganho de ser indexável por IA é consequência do formato
+  (markdown + links), não o objetivo — uma nota que só um agente entende não serve pro humano que
+  vai reler meses depois.
+- **Um vault por projeto, nunca um vault único pra todos os projetos da Onda.** Cada projeto é de um
+  cliente diferente — misturar bugs/decisões de clientes distintos num grafo só vaza contexto entre
+  eles. Padrões técnicos genuinamente reaproveitáveis entre projetos (se/quando surgirem) vivem em
+  outro lugar, nunca dentro da `memoria-tecnica/` de um cliente específico.
 
 ---
 
