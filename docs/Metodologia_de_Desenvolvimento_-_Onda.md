@@ -55,7 +55,7 @@ cliente e para o negócio.
 | `CLAUDE.md` + `spec.md` | Fase 1 | Fonte única da verdade: épicos, histórias de usuário, stack e arquitetura. |
 | `tokens.css` + `DESIGN.md` | Fase 2 | Identidade visual **do projeto** — do cliente, nunca a da Onda. |
 | Protótipo estático | Fase 2 | Interface aprovável, com dados fictícios. |
-| `ROADMAP.md` + contratos | Fase 3 | Planta técnica: módulos, pesos e contratos Request/Response. |
+| `ROADMAP.md` + contratos | Fase 3 | Planta técnica: módulos, pesos e contratos Request/Response. Também é o quadro Kanban do projeto — ver seção 12. |
 | Commits / Small Releases | Fase 4 | Código testado e pronto para produção. |
 | `memoria-tecnica/` | Fase 4 (nasce vazia na Fase 0) | Memória técnica viva: bugs cabeludos e decisões tomadas fora da spec — ver seção 11. |
 | Deploy | Fase 5 | Software em produção. |
@@ -118,6 +118,7 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   3. Pesagem de cada módulo (Complexidade + Risco).
   4. Definição dos **contratos de API** (Request/Response) — antes de qualquer código.
   5. Rastreabilidade história ↔ módulo (relação N:1).
+  6. Cada módulo nasce com `**Status:** ⬜ Pendente` — é o quadro Kanban do projeto (ver seção 12).
 - **Saída:** `ROADMAP.md` + contratos + **prazo técnico calculado**.
 - **Ator:** Humano decide arquitetura · IA gera o roteiro.
 
@@ -131,6 +132,7 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   - **Refactor:** aplica DRY e otimiza sem quebrar os testes.
   - **Segurança:** agente `revisor-seguranca` nos módulos de risco.
   - **Commit limpo** (Small Release).
+  - **Atualiza o status do módulo no `ROADMAP.md`** de `⬜ Pendente` para `✅ Concluído (data)` assim que os testes fecham verdes e o commit é feito — é isso que faz do `ROADMAP.md` o quadro Kanban vivo do projeto (seção 12), não um board externo.
 - **Memória técnica:** antes de investigar um bug ou decidir algo fora da spec, consultar `memoria-tecnica/`; ao resolver algo não-trivial, registrar lá (ver seção 11 — critério de quando vale a pena).
 - **Decisões:**
   - **G4 — Testes verdes?** Não → volta ao TDD.
@@ -376,6 +378,52 @@ ou já tem um aviso dedicado num checklist) — isso duplicaria a fonte de verda
   cliente diferente — misturar bugs/decisões de clientes distintos num grafo só vaza contexto entre
   eles. Padrões técnicos genuinamente reaproveitáveis entre projetos (se/quando surgirem) vivem em
   outro lugar, nunca dentro da `memoria-tecnica/` de um cliente específico.
+
+---
+
+## 12. Rastreio de Progresso — Status por Módulo no ROADMAP.md
+
+*Formalizado em 30/07/2026 — o padrão estrutural (status por módulo dentro do `ROADMAP.md`) já
+existia organicamente em mais de um projeto da Onda antes de virar regra escrita — só que cada um
+com um vocabulário próprio (ver "Padronização de vocabulário" abaixo).*
+
+### O que é e por quê
+
+A seção 4 sempre falou em "fluxo Kanban" na Fase 4, mas nunca disse **onde** esse Kanban mora.
+Este é o padrão oficial: **o quadro Kanban não é uma ferramenta externa (Trello, Jira) — é o
+próprio `ROADMAP.md`.**
+
+### Convenção — vocabulário único, sem variações
+
+Cada módulo, ao nascer na Fase 3 (Blueprint), recebe:
+```
+**Status:** ⬜ Pendente
+```
+Ao ser concluído na Fase 4 (testes verdes, commitado), atualiza pra:
+```
+**Status:** ✅ Concluído (2026-07-09) — backend (137/137 testes...)
+```
+Um resumo curto do que foi coberto (contagem de testes, achado relevante) é bem-vindo, mas
+opcional. Um estado intermediário `🔄 Em andamento` pode ser usado se o módulo estiver em
+progresso há mais de uma sessão.
+
+**São exatamente estes 3 marcadores, sempre com esse texto exato — `⬜ Pendente`, `🔄 Em
+andamento`, `✅ Concluído` — em todos os projetos da Onda.** Não usar variações como `COMPLETO`,
+`DONE`, `Feito`, `Finalizado` etc., mesmo que pareçam sinônimos óbvios — o valor do padrão é
+poder olhar o `ROADMAP.md` de qualquer projeto da Onda e reconhecer o status sem reaprender o
+vocabulário daquele projeto específico. (Achado nesta mesma formalização: Sistema Melvin e SAW
+Hub já tinham convergido pra essa estrutura de forma independente, mas com palavras diferentes
+entre si — `COMPLETO` vs `concluído` — corrigido pra um só termo em todos.)
+
+### Distinção do Changelog de Escopo
+
+Isso **não substitui** o Changelog de Escopo (tabela usada no `CLAUDE.md` de outros projetos,
+como o Sistema Melvin) — são artefatos com propósitos diferentes:
+- **Status por módulo (`ROADMAP.md`)** — progresso: o que já foi construído, módulo a módulo.
+- **Changelog de Escopo (`CLAUDE.md`)** — histórico: mudanças de escopo e decisões que alteraram
+  o que estava planejado, com data e impacto.
+
+Um projeto pode (e frequentemente deve) ter os dois — não são concorrentes.
 
 ---
 
