@@ -427,6 +427,61 @@ Um projeto pode (e frequentemente deve) ter os dois — não são concorrentes.
 
 ---
 
+## 13. Padrão de Gestão Visual (Kanban 9 Colunas)
+
+O Trello da Onda não é uma ferramenta separada da documentação técnica; ele é o seu espelho visual. **Regra de Ouro da Sincronização:** Toda e qualquer especificação funcional criada, alterada ou deletada (nos arquivos `CLAUDE.md`, `ROADMAP.md` ou `spec.md`) deve obrigatoriamente engatilhar o utilitário local `./scripts/trello_sync.py` para sincronizar o quadro do projeto correspondente. A documentação e o Trello são a mesma entidade.
+
+> **Credencial do `trello_sync.py` (30/07/2026):** o script lê `TRELLO_KEY`/`TRELLO_TOKEN` de
+> variável de ambiente — nunca hardcoded no código (já vazou hardcoded uma vez antes de ser
+> commitado; corrigido a tempo). É a mesma credencial de conta pra todos os projetos Onda, então
+> vive em **um lugar só**, fora de qualquer repositório: `~/.trello_env` (`chmod 600`), carregado
+> automaticamente pelo `~/.zshrc` via `[ -f ~/.trello_env ] && source ~/.trello_env`. Pra gerar uma
+> credencial nova (perdeu/rotacionou): `trello.com/power-ups/admin` → Power-Up "Onda Sync" → API
+> key → gerar Token a partir de lá.
+
+Para comportar o fluxo das 5 Fases da Onda (do Design ao Deploy), o quadro oficial de Kanban no Trello deve ter *exatamente* e *apenas* as seguintes **9 listas (colunas)** na ordem especificada:
+
+1. **📚 Base de Conhecimento (Docs / Memória Técnica):**
+   - Usado para abrigar links para documentações oficiais e notas de memória técnica rápidas (ex: resoluções de problemas recorrentes e causas raiz, vivendo diretamente no board).
+2. **❄️ Icebox (Banco de Ideias):**
+   - Ideias, sugestões e pedidos de melhoria que ainda não foram priorizados ou detalhados. Separa claramente o que "talvez aconteça" do backlog real de trabalho.
+3. **📋 Backlog (Especificações e Épicos):**
+   - Tarefas e épicos aprovados e detalhados.
+   - **Regra de Ouro (Regra 2a):** *Documentação antes da codificação*. Os cards aqui devem ser "spec-driven", contendo a especificação da feature ou o link para o `spec.md`, antes de irem para desenvolvimento.
+4. **🏗️ Requisitos Não-Funcionais & Arquitetura:**
+   - Coluna dedicada exclusivamente para débitos técnicos, tarefas de segurança, performance, LGPD, decisões de infraestrutura e arquitetura/design. Preenche a lacuna de não misturar melhorias estruturais com entregas funcionais (épicos/histórias) do negócio.
+5. **🎯 A Fazer (To Do / Ready):**
+   - Cards do backlog que estão priorizados, refinados, e prontos para serem puxados pela equipe no ciclo atual.
+6. **⚙️ Em Execução (Doing / In Progress):**
+   - O que está sendo ativamente codificado ou configurado neste exato momento.
+7. **🔍 Code Review / Testes:**
+   - Revisão de código, testes unitários, testes E2E e validação técnica interna antes de ir para o ambiente do cliente.
+8. **🧪 UAT (Homologação / Validação do Cliente):**
+   - Validação da entrega (Aceitação do Usuário) junto ao cliente ou key user. Alinha-se diretamente com a **Fase 5** da metodologia Onda.
+9. **✅ Concluído (Done 🎉):**
+   - Tudo que já foi testado, aprovado pelo cliente, homologado e entregue em produção.
+
+### 13.1 Padrão de Escrita dos Cartões (Spec-Driven & Checklists)
+
+Para que o board funcione como uma ferramenta ágil real (inspirada no Scrum) e não apenas um amontoado de lembretes, a escrita interna dos cartões deve seguir regras rígidas:
+
+- **Clareza de Épicos e Histórias de Usuário:** O título e a descrição devem comunicar claramente o valor de negócio (ex: "Como usuário, quero X para poder Y"). O contexto do requisito ou o link para o `spec.md` deve estar explícito.
+- **Checklists Contextuais ("Critérios de Aceite"):** É terminantemente proibido o uso de listas genéricas (boilerplates). Todo cartão refinado (movido para "A Fazer") deve conter uma lista nativa nomeada exclusivamente como `"Critérios de Aceite"`.
+- **Granularidade Técnica:** Os itens desse checklist devem traduzir a regra de negócio em entregas técnicas tangíveis (ex: *Criar índice PostGIS, Construir endpoint GET /search, Validar regra de no-show*). O cartão só atinge 100% de conclusão quando todos esses critérios técnicos específicos são validados.
+
+### 13.2 Padrão de Etiquetas (Tags)
+
+Para garantir rastreabilidade de responsabilidades e filtragem visual rápida, os quadros utilizam **apenas 6 etiquetas oficiais**, abolindo a criação de tags ad-hoc (ex: "Database", "Integração"). Todo cartão de requisito deve ter pelo menos uma destas alçadas associadas:
+
+- 🔵 **Frontend (UI/UX):** Telas, layouts, SPA, mobile, responsividade.
+- 🟢 **Backend (Regras & APIs):** Serviços, banco de dados, regras de negócio, endpoints.
+- 🟡 **Arquitetura / Segurança:** Decisões de modelagem estrutural, autenticação, permissões e LGPD.
+- 🟠 **Infraestrutura / Cloud:** DevOps, pipelines CI/CD, buckets (S3), Docker, deploys.
+- 🟣 **Design / Documentação:** Pesquisa visual, criação de tokens, prototipagem (Figma) e documentação técnica.
+- 🔴 **Bug / Débito Técnico:** Correções de defeitos ou refatorações emergenciais de performance.
+
+---
+
 *Onda · Documento de processo — base para modelagem BPMN. Documento vivo: versionar a cada
 evolução do método. Toda decisão volta à pergunta-âncora:*
 **é belo no design, fluido no uso e seguro por dentro?**

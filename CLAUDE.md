@@ -19,6 +19,9 @@
 ## Máquina de estados principal
 [preencher na Fase 1 se aplicável]
 
+## Diretivas de Gestão (Regra de Ouro do Trello)
+> **ATENÇÃO:** Toda vez que você (Claude/IA) criar, modificar ou deletar qualquer especificação funcional ou técnica nos arquivos `CLAUDE.md`, `ROADMAP.md`, `docs/spec.md` ou `design/DESIGN.md`, você é **OBRIGADO** a executar o script `./scripts/trello_sync.py` para espelhar essa exata alteração no Trello correspondente (criando cards no Backlog, atualizando os Critérios de Aceite ou arquivando o que foi cancelado). Documentação e Trello são a mesma entidade.
+
 ## Convenções
 - API REST `/api/v1`, JSON, erros padronizados.
 - Diretiva Primária na Fase 4: não alterar sintaxe de código existente.
