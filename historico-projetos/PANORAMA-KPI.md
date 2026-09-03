@@ -45,7 +45,7 @@ está marcado *n/c* (não confiável).
 | sistema_melvin | Cliente (ONG) — sistema, 2+ anos | 2024-07-03 → 2026-09-01 | 791 / 68 (9%) | 155 / 81 | **~116–135 h** | +72,0k / −25,8k | n/c¹ | 18 | ⚠ só template |
 | vanessa-vaz-projeto | Cliente — site institucional + blog | 2026-06-13 → 09-01 | 81 / 6 (7%) | 51 / 9 | **~25–29 h** | +27,8k / −1,3k | n/c¹ | 12 | ⚠ só template |
 | sistema_so_moqas | Cliente? — sistema de manutenção | 2026-03-09 → 07-31 | 145 / 11 (8%) | 26 / 14 | **~24–27 h** | +24,0k / −13,3k | n/c¹ | 9 | — |
-| figurinos-tja | Cliente? — web (Fase 2b) | 2026-05-22 → 06-19 | 29 / 2 (7%) | 7 / 4 | **~9–10 h** | +21,8k / −13,4k | n/c¹ | 0 | — |
+| figurinos-tja | Cliente — sistema p/ teatro público | 2026-05-22 → 06-19 | 29 / 2 (7%) | 7 / 4 | **~9–10 h** | +21,8k / −13,4k | n/c¹ | 0 | proposta em onda-propostas |
 | landing_page_Klinsmann | Cliente — landing page | 2026-05-30 → 08-02 | 65 / 3 (5%) | 14 / 4 | **~9–10 h** | +3,3k / −0,6k | n/c¹ | 0 | — |
 | onda_enterprise | Interno — site da Onda | 2026-06-05 → 08-01 | 58 / 4 (7%) | 40 / 5 | **~22–25 h** | +5,6k / −2,0k | n/c¹ | 0 | — |
 | onda-starter | Interno — scaffold/metodologia | 2026-06-11 → 09-01 | 83 / 8 (10%) | 12 / 8 | **~9–10 h** | +3,5k / −0,2k | n/c¹ | 28² | — |
@@ -110,8 +110,12 @@ preenchido — usar como referência de formato.
   esforço estimado**.
 - **Fluxo/qualidade:** feat 69 / fix 59 / refactor 9 / debug 7 → **rework 31%**. 32 arquivos de
   teste. Churn +98k/−10k.
-- **Lacunas:** valor do contrato · datas · timesheet · CSAT · DORA (deploy via Coolify na VPS —
-  histórico não puxado) · relação esforço×preço (crítico dado o tamanho).
+- **Valor:** proposta em `onda-propostas/clientes/saw/` — **R$ 20.000** (10k kickoff + 10k entrega)
+  ou **R$ 7.700** (condição especial). Qual foi aceita decide se este projeto é o único lucrativo
+  da carteira ou o segundo maior prejuízo — ver ledger privado. **É a informação financeira
+  prioritária a levantar.**
+- **Lacunas:** contrato aceito (20k vs 7,7k) · datas · timesheet · CSAT · DORA (deploy Coolify —
+  histórico não puxado).
 
 ### sistema_lucas
 - **Cronograma:** **195 dias corridos** (fev→set/2026), só 35 ativos (18%) — desenvolvimento
@@ -154,11 +158,14 @@ preenchido — usar como referência de formato.
 - **Lacunas:** é projeto de cliente, interno ou acadêmico? · valor · datas · estado atual.
 
 ### figurinos-tja
-- **Forma:** web, tem `BRIEFING-FASE-2B.md` (passou pela Fase 2b da metodologia).
-- **Cronograma:** 29 dias corridos, **2 ativos**. 7 commits, 4 sessões → **central ~9–10 h**.
-  Churn +22k/−13k sugere 1 grande refactor/reimport.
-- **Lacunas:** praticamente tudo — projeto pequeno, provável LP/site. Confirmar cliente, valor,
-  estado.
+- **Forma:** sistema de **gestão de figurino/acervo para teatro público** (não é LP) — controle de
+  locação com caução, relatórios, rastreabilidade. Proposta em `onda-propostas/clientes/tja/`
+  (v1.0 R$ 5.500 → v1.1 R$ 3.500). Tem `BRIEFING-FASE-2B.md`.
+- **Cronograma:** 29 dias corridos, **só 2 ativos** (mai–jun/2026). 7 commits, 4 sessões →
+  **central ~9–10 h**. Churn +22k/−13k = 1 grande import/refactor.
+- **Contradição a resolver:** proposta de sistema (R$ 3.500) vs. repo com 7 commits / ~10 h. Ou o
+  projeto está no começo, ou foi pausado/cancelado, ou o código está em outro lugar.
+- **Lacunas:** aceite e estado do projeto · datas · valor confirmado.
 
 ### landing_page_Klinsmann
 - **Forma:** landing page ("Zoo Agency"). Sem testes.
@@ -181,9 +188,10 @@ de trabalho direto, mas o valor está em quanto ele **poupa por projeto** (Fase 
 não no esforço próprio. Os 28 "arquivos de teste" são do template, não deste repo.
 
 ### onda-propostas — geração de propostas comerciais
-2 commits, ~2 h. Guarda propostas PDF/HTML por cliente (saw, sanarys). Fonte potencial de **valor
-de contrato** para preencher lacunas deste panorama — cruzar `onda-propostas/clientes/*/` com a
-tabela mestre.
+2 commits, ~2 h. Guarda propostas PDF/HTML por cliente. **Cruzado com a tabela mestre em
+2026-09-02** — clientes com proposta: heliene (só checklist), saw (R$ 20k / R$ 7,7k), tja
+(R$ 3,5k), instituto-melvin (só infra), + sanarys, eriksen-gm, marcel-imobiliaria, felipe,
+samuel-vrapfilms (sem repo em `~/Applications` — pipeline comercial). Valores no ledger privado.
 
 ---
 
@@ -208,10 +216,13 @@ tabela mestre.
    (saw-hub ~130 h, sistema_melvin ~125 h diluídos em 2 anos, sistema_lucas ~100 h,
    marketplace-ceara ~70 h). Sem os valores de contrato, é impossível dizer quais desses pagaram.
 
-3. **Valor de contrato só existe para 1 de 15 projetos** (confidencial, R$ 1.500) — e esse deu
-   margem negativa no cenário-meta. **Risco:** a Onda não sabe se está lucrando na carteira.
-   **Ação:** puxar os valores de `onda-propostas/clientes/` e das propostas geradas pelo
-   `onda-proposta` skill, preencher a coluna, refazer a leitura financeira no ledger privado.
+3. **Valor de contrato confirmado só para 1 de 15 projetos** (confidencial, R$ 1.500 — margem
+   negativa no cenário-meta). `onda-propostas/clientes/` foi cruzado (2026-09-02) e deu **pistas,
+   não confirmações**: saw-hub tem proposta de R$ 20.000 **ou** R$ 7.700 (condição especial) —
+   qual foi aceita muda o projeto de "único lucrativo" para "segundo maior prejuízo"; figurinos-tja
+   ~R$ 3.500; instituto-melvin só tem cotação de infra (provável quase pro bono). Detalhe e
+   números no ledger privado. **Ação:** confirmar o contrato aceito de cada um (começar por
+   saw-hub) e fechar a leitura financeira.
 
 4. **Rework alto onde dá pra medir** (confidencial 28,8%, marketplace ~38%, saw-hub 31%). Parte é
    auditoria proposital (segurança/perf/SEO), parte é bug real. **Ação:** separar `fix:` de
