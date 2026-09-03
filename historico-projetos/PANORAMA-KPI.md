@@ -37,15 +37,15 @@ está marcado *n/c* (não confiável).
 
 | Projeto | Tipo (a confirmar) | Janela | Dias corr./ativos | Commits / sessões | Horas est. **central** | Churn (add/del) | Rework | Testes | Docs KPI no repo |
 |---|---|---|---|---|---|---|---|---|---|
-| confidencial-calcados | Cliente — e-commerce | 2026-08-20 → 09-02 | 14 / 12 (86%) | 73 / 18 | **~55–60 h** | +29,2k / −2,0k | 28,8% | 40 | ✅ análise + métricas |
+| confidencial-calcados | Cliente — e-commerce | 2026-08-20 → 09-02 | 14 / 12 (86%) | 73 / 18 | **~55–60 h** · contrato **R$ 1.500** → eff. **~R$ 25–27/h** | +29,2k / −2,0k | 28,8% | 40 | ✅ análise + métricas |
 | heliene-araujo | Cliente — site (piloto KPI) | 2026-08-17 → 09-02 | 17 / 8 (47%) | 31 / 9 | **~18–20 h** | +39,5k / −0,8k | n/c¹ | 23 | ✅ análise + métricas |
 | marketplace-ceara | Cliente — marketplace (web+mobile) | 2026-06-19 → 09-01 | 75 / 20 (27%) | 111 / 28 | **~65–75 h** | +61,3k / −8,9k | ~38% | 15 | ⚠ só template |
-| saw-hub | Cliente — plataforma (Java/Spring) | 2026-07-06 → 09-01 | 58 / 24 (41%) | 188 / 43 | **~120–139 h** | +97,8k / −9,9k | 31,4% | 32 | ⚠ só template |
+| saw-hub | Cliente — plataforma (Java/Spring) | 2026-07-06 → 09-01 | 58 / 24 (41%) | 188 / 43 | **~120–139 h** · contrato **R$ 4.500** → eff. **~R$ 32–38/h** | +97,8k / −9,9k | 31,4% | 32 | ⚠ só template |
 | sistema_lucas | Cliente — sistema interno | 2026-02-19 → 09-01 | 195 / 35 (18%) | 121 / 44 | **~94–109 h** | +70,8k / −12,6k | ~21% | 34 | ⚠ só template |
 | sistema_melvin | Cliente (ONG) — sistema, 2+ anos | 2024-07-03 → 2026-09-01 | 791 / 68 (9%) | 155 / 81 | **~116–135 h** | +72,0k / −25,8k | n/c¹ | 18 | ⚠ só template |
 | vanessa-vaz-projeto | Cliente — site institucional + blog | 2026-06-13 → 09-01 | 81 / 6 (7%) | 51 / 9 | **~25–29 h** | +27,8k / −1,3k | n/c¹ | 12 | ⚠ só template |
 | sistema_so_moqas | Cliente? — sistema de manutenção | 2026-03-09 → 07-31 | 145 / 11 (8%) | 26 / 14 | **~24–27 h** | +24,0k / −13,3k | n/c¹ | 9 | — |
-| figurinos-tja | Cliente — sistema p/ teatro público | 2026-05-22 → 06-19 | 29 / 2 (7%) | 7 / 4 | **~9–10 h** | +21,8k / −13,4k | n/c¹ | 0 | proposta em onda-propostas |
+| figurinos-tja | Cliente — sistema p/ teatro público · **PAROU** | 2026-05-22 → 06-19 | 29 / 2 (7%) | 7 / 4 | **~9–10 h** (custo afundado) | +21,8k / −13,4k | n/c¹ | 0 | proposta em onda-propostas |
 | landing_page_Klinsmann | Cliente — landing page | 2026-05-30 → 08-02 | 65 / 3 (5%) | 14 / 4 | **~9–10 h** | +3,3k / −0,6k | n/c¹ | 0 | — |
 | onda_enterprise | Interno — site da Onda | 2026-06-05 → 08-01 | 58 / 4 (7%) | 40 / 5 | **~22–25 h** | +5,6k / −2,0k | n/c¹ | 0 | — |
 | onda-starter | Interno — scaffold/metodologia | 2026-06-11 → 09-01 | 83 / 8 (10%) | 12 / 8 | **~9–10 h** | +3,5k / −0,2k | n/c¹ | 28² | — |
@@ -110,12 +110,11 @@ preenchido — usar como referência de formato.
   esforço estimado**.
 - **Fluxo/qualidade:** feat 69 / fix 59 / refactor 9 / debug 7 → **rework 31%**. 32 arquivos de
   teste. Churn +98k/−10k.
-- **Valor:** proposta em `onda-propostas/clientes/saw/` — **R$ 20.000** (10k kickoff + 10k entrega)
-  ou **R$ 7.700** (condição especial). Qual foi aceita decide se este projeto é o único lucrativo
-  da carteira ou o segundo maior prejuízo — ver ledger privado. **É a informação financeira
-  prioritária a levantar.**
-- **Lacunas:** contrato aceito (20k vs 7,7k) · datas · timesheet · CSAT · DORA (deploy Coolify —
-  histórico não puxado).
+- **Valor:** contrato fechou em **~R$ 4.500** (informado 2026-09-02) — abaixo das propostas
+  arquivadas (R$ 20.000 e R$ 7.700). Effective rate bruto `(est.)` **~R$ 32–38/h**. Sendo o maior
+  esforço da carteira vendido pelo menor múltiplo, é o **pior resultado financeiro em valor
+  absoluto** — detalhe no ledger privado.
+- **Lacunas:** datas · timesheet · CSAT · DORA (deploy Coolify — histórico não puxado).
 
 ### sistema_lucas
 - **Cronograma:** **195 dias corridos** (fev→set/2026), só 35 ativos (18%) — desenvolvimento
@@ -136,8 +135,9 @@ preenchido — usar como referência de formato.
   2+ anos**; não comparável a um projeto de entrega única.
 - **Qualidade:** commits majoritariamente não convencionais (`modified` 53, `(sem prefixo)` 55).
   18 arquivos de teste.
-- **Lacunas:** natureza do acordo (pro bono? simbólico? — provável, sendo ONG) · datas · o custo
-  real de manter isso vivo por 2 anos (relevante para decidir se continua).
+- **Acordo:** tratado como **pro bono** (confirmado 2026-09-02). KPI a monitorar não é margem, é o
+  **custo anual de manutenção** (~90–120 h/ano pelo histórico) — revisar a cada renovação de infra
+  se compensa manter.
 
 ### vanessa-vaz-projeto
 - **Forma:** Next.js + React + Tailwind. **VVM Advocacia — site institucional + blog.** Tem
@@ -157,15 +157,14 @@ preenchido — usar como referência de formato.
 - **Esforço:** 26 commits, 14 sessões → **central ~24–27 h**.
 - **Lacunas:** é projeto de cliente, interno ou acadêmico? · valor · datas · estado atual.
 
-### figurinos-tja
-- **Forma:** sistema de **gestão de figurino/acervo para teatro público** (não é LP) — controle de
-  locação com caução, relatórios, rastreabilidade. Proposta em `onda-propostas/clientes/tja/`
-  (v1.0 R$ 5.500 → v1.1 R$ 3.500). Tem `BRIEFING-FASE-2B.md`.
-- **Cronograma:** 29 dias corridos, **só 2 ativos** (mai–jun/2026). 7 commits, 4 sessões →
-  **central ~9–10 h**. Churn +22k/−13k = 1 grande import/refactor.
-- **Contradição a resolver:** proposta de sistema (R$ 3.500) vs. repo com 7 commits / ~10 h. Ou o
-  projeto está no começo, ou foi pausado/cancelado, ou o código está em outro lugar.
-- **Lacunas:** aceite e estado do projeto · datas · valor confirmado.
+### figurinos-tja — **PAROU**
+- **Forma:** sistema de **gestão de figurino/acervo para teatro público** — controle de locação com
+  caução, relatórios, rastreabilidade. Proposta em `onda-propostas/clientes/tja/` (v1.0 R$ 5.500 →
+  v1.1 R$ 3.500). Tem `BRIEFING-FASE-2B.md`.
+- **Estado:** **projeto parado** (confirmado 2026-09-02). Repo tem 7 commits / **~10 h `(est.)`**
+  em mai–jun/2026 e não avançou. Custo afundado ~R$ 900–1.000 à meta de custo/hora, sem receita.
+- **Aprendizado:** registrar como caso de qualificação de lead / proposta que não converteu, não
+  como prejuízo de execução. Verificar se há pendência com o cliente (proposta em aberto?).
 
 ### landing_page_Klinsmann
 - **Forma:** landing page ("Zoo Agency"). Sem testes.
@@ -214,15 +213,16 @@ samuel-vrapfilms (sem repo em `~/Applications` — pipeline comercial). Valores 
 
 2. **Esforço estimado acumulado ~600–700 h** desde fev/2026, concentrado em 4 projetos
    (saw-hub ~130 h, sistema_melvin ~125 h diluídos em 2 anos, sistema_lucas ~100 h,
-   marketplace-ceara ~70 h). Sem os valores de contrato, é impossível dizer quais desses pagaram.
+   marketplace-ceara ~70 h).
 
-3. **Valor de contrato confirmado só para 1 de 15 projetos** (confidencial, R$ 1.500 — margem
-   negativa no cenário-meta). `onda-propostas/clientes/` foi cruzado (2026-09-02) e deu **pistas,
-   não confirmações**: saw-hub tem proposta de R$ 20.000 **ou** R$ 7.700 (condição especial) —
-   qual foi aceita muda o projeto de "único lucrativo" para "segundo maior prejuízo"; figurinos-tja
-   ~R$ 3.500; instituto-melvin só tem cotação de infra (provável quase pro bono). Detalhe e
-   números no ledger privado. **Ação:** confirmar o contrato aceito de cada um (começar por
-   saw-hub) e fechar a leitura financeira.
+3. **Preço é o problema, não a execução.** Os 2 projetos com valor confirmado — confidencial
+   (R$ 1.500 / ~57 h) e **saw-hub (R$ 4.500 / ~130 h, informado 2026-09-02)** — dão **effective
+   rate bruto de ~R$ 25–38/h**, ~1/3 da meta de custo/hora. saw-hub é o pior em valor absoluto
+   (maior esforço, vendido abaixo até da "condição especial" de R$ 7.700 que estava arquivada).
+   sistema_melvin é pro bono assumido (ONG). figurinos-tja parou (~10 h de custo afundado).
+   **Ação:** antes do próximo contrato, fixar um piso = `horas do blueprint × custo/hora real ×
+   (1 + margem-alvo)`; levantar os valores dos demais (marketplace-ceara, sistema_lucas,
+   vanessa-vaz, heliene).
 
 4. **Rework alto onde dá pra medir** (confidencial 28,8%, marketplace ~38%, saw-hub 31%). Parte é
    auditoria proposital (segurança/perf/SEO), parte é bug real. **Ação:** separar `fix:` de
@@ -283,7 +283,8 @@ Tipo: plataforma de mentoria | backend Java/Spring | 1 dev | Deploy: VPS Coolify
 Janela: 2026-07-06 a 2026-09-01 (58 dias corridos, 24 ativos, 41%) | 188 commits, 43 sessões
 Horas (est. proxy de commit): ~96 piso / ~120-139 central / ~180 teto  [MAIOR ESFORÇO DA CARTEIRA]
 Sprint jul (175 commits) -> gap 22d -> cauda ago | feat 69 / fix 59 -> rework 31% | testes: 32
-Contrato/datas/timesheet/CSAT/DORA: não coletados
+Contrato: ~R$ 4.500 (informado 02/09) -> effective rate bruto (est.) ~R$ 32-38/h -> pior
+  resultado financeiro absoluto da carteira | datas/timesheet/CSAT/DORA: não coletados
 ```
 
 ```
@@ -316,7 +317,7 @@ Contrato/datas/aceite/CSAT: não coletados
 ```
 MENORES — snapshot 2026-09-02 (reconstrução git)
 sistema_so_moqas : 26 commits / ~24-27h est. | mar/2026 | tipo a confirmar
-figurinos-tja    : 7 commits  / ~9-10h est.  | Fase 2b | LP/site pequeno
+figurinos-tja    : 7 commits  / ~9-10h est.  | sistema p/ teatro público | PAROU (custo afundado)
 landing_Klinsmann: 14 commits / ~9-10h est.  | LP "Zoo Agency"
 onda_enterprise  : 40 commits / ~22-25h est. | site da própria Onda (sem receita)
 onda-starter     : 12 commits / ~9-10h est.  | tooling/metodologia
