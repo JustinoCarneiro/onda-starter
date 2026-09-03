@@ -38,6 +38,11 @@
 
 ## 3. Timesheet — uma linha por sessão (Fase 4)
 
+**Uma linha por sessão de trabalho, no fim da sessão** (não deixar pro fechamento — não se
+reconstrói hora depois). Fase = 0–5 da metodologia. Se o projeto já andou sem registro, semear
+um bloco `3.1` com a estimativa retroativa por proxy de commit (método:
+`historico-projetos/PANORAMA-KPI.md` § Método) e marcar tudo dali `(est.)` — nunca fabricar linha.
+
 | Data | Fase (0–5) | Horas | Nota |
 |---|---|---|---|
 | `<AAAA-MM-DD>` | `<n>` | `<h>` | `<o que foi feito>` |
