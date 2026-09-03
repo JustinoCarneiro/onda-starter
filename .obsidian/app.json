@@ -1,4 +1,5 @@
 {
+  "readableLineLength": true,
   "userIgnoreFilters": [
     "node_modules",
     "dist",

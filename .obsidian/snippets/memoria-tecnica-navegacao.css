@@ -1,0 +1,20 @@
+/* memoria-tecnica-navegacao.css
+   Ajustes de LAYOUT (largura de leitura, espaçamento) para deixar a
+   navegação do vault mais confortável. Cor/tema não são tocados aqui —
+   isso continua sendo escolha pessoal em Settings → Appearance. */
+
+body {
+  /* Largura de leitura um pouco mais generosa que o padrão (700px) —
+     melhor pra notas técnicas com tabela/código, ainda centralizada.
+     Só tem efeito com "Readable line length" ligado (Settings → Editor). */
+  --file-line-width: 800px;
+
+  /* Mais espaço entre linhas no corpo do texto, ajuda a escanear notas
+     longas de bug/decisão. */
+  --line-height-normal: 1.65;
+
+  /* Itens da barra lateral (arquivos, tags, backlinks) com alvo de clique
+     maior — mais fácil de diferenciar bugs/ de decisoes/ de relance. */
+  --nav-item-size: 15px;
+  --nav-item-padding: 6px 8px;
+}

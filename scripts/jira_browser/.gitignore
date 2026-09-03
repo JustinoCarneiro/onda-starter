@@ -1,0 +1,5 @@
+.venv/
+.browser-profile/
+chrome.log
+*.png
+__pycache__/

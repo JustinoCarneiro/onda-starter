@@ -16,6 +16,9 @@ build/
 .obsidian/workspace-mobile.json
 .obsidian/graph.json
 .obsidian/appearance.json
+# Paleta da marca Onda — uso pessoal no vault local, nunca no template
+# clonado pra projeto de cliente (ver skill onda-marca).
+.obsidian/snippets/onda-cores.css
 
 # Arquivos de IDE
 .idea/
