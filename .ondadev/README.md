@@ -68,9 +68,10 @@ separado é para trabalho paralelo (`setup/WORKTREE.md`), não para failover.
 
 - **Sem escrita concorrente.** O primeiro agente para antes de o segundo
   escrever. A checkbox "o primeiro agente parou?" em `current.md` é obrigatória.
-- **`ANTHROPIC_API_KEY` nunca como fallback automático.** Se estiver definida, o
-  Claude Code pode cobrar via API em vez de usar a assinatura. `ai-checkpoint.sh`
-  avisa quando detecta a variável. Autenticação é sempre `claude auth login`.
+- **`ANTHROPIC_API_KEY` / `OPENAI_API_KEY` nunca como fallback automático.** Se
+  qualquer uma estiver definida, o agente (Claude Code ou Codex) pode cobrar via
+  API em vez de usar a assinatura. `ai-checkpoint.sh` avisa quando detecta uma
+  delas. Autenticação é sempre pela sessão: `claude auth login` / login do Codex.
 - **Sem segredo no handoff.** `current.md` é ignorado pelo Git justamente para
   não virar canal de vazamento; ainda assim, não escreva segredo nele.
 - **Checkpoint commit é opcional; squash antes do merge.** Commits de checkpoint

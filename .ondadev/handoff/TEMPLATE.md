@@ -68,6 +68,6 @@ próprios da tarefa (se houver) — descreva o resultado, não cole log:
 ## 9. Checklist de segurança do handoff
 
 - [ ] Nenhum segredo, token, valor de `.env` ou dado de cliente neste arquivo.
-- [ ] `ANTHROPIC_API_KEY` NÃO foi habilitada como fallback automático.
+- [ ] `ANTHROPIC_API_KEY` / `OPENAI_API_KEY` NÃO foram habilitadas como fallback automático.
 - [ ] Sem escrita concorrente: um agente por checkout por vez.
 - [ ] `current.md` está fora do Git (é ignorado).
