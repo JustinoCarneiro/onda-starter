@@ -5,13 +5,17 @@
 
 ## Mapa de fases e skills
 
+Skills `ondadev-*` (OndaDev 3.0), válidas para Claude e Codex. Os comandos
+legados `onda-*` seguem funcionando com aviso de depreciação até o fim do piloto.
+
 | Fase | Skill | Entregável |
 |---|---|---|
-| 1 · Spec Viva | `onda-spec-viva` | `CLAUDE.md` + `docs/spec.md` |
-| 2 · Layout | `onda-direcao-visual` (se sem identidade) + `onda-layout` | Protótipo aprovado |
-| 3 · Blueprint | `onda-blueprint` | Este ROADMAP + contratos |
-| 4 · XP Coding | `onda-xp-tdd` | Módulos testados e commitados |
-| 5 · Homologação | `onda-homologacao` | Deploy em produção |
+| 0 · Descoberta | `ondadev-discovery` | Repo com `ONDA_VERSION` + perfil + métricas |
+| 1 · Spec Viva | `ondadev-spec` | `CLAUDE.md` + `docs/product/spec.md` |
+| 2 · Experiência | `ondadev-experience` | `design/tokens.css` + protótipo aprovado |
+| 3 · Blueprint | `ondadev-blueprint` | Este ROADMAP + contratos de API |
+| 4 · Construção | `ondadev-build` | Módulos testados e commitados |
+| 5 · Release | `ondadev-release` | Deploy + `docs/ANALISE-PROJETO-<nome>.md` |
 
 ## Módulos
 
