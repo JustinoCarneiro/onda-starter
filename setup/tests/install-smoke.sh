@@ -73,18 +73,21 @@ onda_docker run --rm \
     grep -F "O instalador não autentica contas" /tmp/ondadev-install.out
 
     # 2. Caminho real de instalação de skills num HOME limpo. Não toca o
-    #    repositório (montado readonly): as skills vão para ~/.claude e ~/.agents.
+    #    repositório (montado readonly): as skills vão para ~/.claude/skills.
+    #    ~/.agents/skills só é espelhado quando há Codex CLI — ausente neste
+    #    container, então o instalador anuncia que pulou.
     export HOME=/tmp/ondadev-home
     mkdir -p "$HOME"
     bash setup/install.sh --component skills >/tmp/ondadev-skills.out
     test -f "$HOME/.claude/skills/ondadev-build/SKILL.md"
-    test -f "$HOME/.agents/skills/ondadev-discovery/SKILL.md"
-    grep -F "compatibilidade temporária" /tmp/ondadev-skills.out
+    test -f "$HOME/.claude/skills/ondadev-discovery/SKILL.md"
+    grep -F "Codex CLI não detectado" /tmp/ondadev-skills.out
+    grep -F "asset(s) legado(s) do Claude copiado(s)" /tmp/ondadev-skills.out
 
     # 3. Idempotência: rodar de novo deixa a árvore de skills byte a byte igual.
-    before="$(find "$HOME/.claude/skills" "$HOME/.agents/skills" -type f -exec sha256sum {} + | sort)"
+    before="$(find "$HOME/.claude/skills" -type f -exec sha256sum {} + | sort)"
     bash setup/install.sh --component skills >/dev/null
-    after="$(find "$HOME/.claude/skills" "$HOME/.agents/skills" -type f -exec sha256sum {} + | sort)"
+    after="$(find "$HOME/.claude/skills" -type f -exec sha256sum {} + | sort)"
     test "$before" = "$after"
   '
 
