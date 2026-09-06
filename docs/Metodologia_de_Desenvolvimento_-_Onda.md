@@ -3,7 +3,8 @@
 ### Playbook de Engenharia — Onda-Dev
 
 > **Belo no design. Fluido no uso. Sólido na segurança.**
-> **v2.0 · Junho/2026**
+> **v3.0 · Setembro/2026** — versão declarada em `ONDA_VERSION`.
+> Migração desde a 2.0: `docs/migracao-2.0-para-3.0.md`.
 
 ---
 
@@ -13,11 +14,21 @@
 > **qualidade verificada** em cada etapa (não apenas prometida), independentemente do tipo de
 > projeto: e-commerce, app, landing page, sistema interno ou automação.
 
-Este playbook foi desenhado para o cenário de um **desenvolvedor solo operando com IA de alta
-performance** — Antigravity como IDE/orquestrador e Claude Code no terminal. Ele se apoia nos
-princípios do *Agile Vibe Code* e do *Extreme Programming (XP)* com IA: no lugar da burocracia
-voltada à gestão de pessoas, uma **iteratividade de engenharia** que garante adaptação a
-mudanças, entregas contínuas e altíssima qualidade técnica.
+Este playbook foi desenhado para o cenário de um **desenvolvedor solo operando com dois
+agentes de IA** — **VS Code** como editor canônico, **Codex Desktop** como mesa de
+orquestração (worktrees, tarefas longas) e **Claude Code** como par de programação no terminal
+e revisor crítico. Um autor por PR; o outro agente revisa o diff. Antigravity fica só como
+laboratório visual opcional, fora do fluxo padrão. Ele se apoia nos princípios do *Agile Vibe
+Code* e do *Extreme Programming (XP)* com IA: no lugar da burocracia voltada à gestão de
+pessoas, uma **iteratividade de engenharia** que garante adaptação a mudanças, entregas
+contínuas e altíssima qualidade técnica.
+
+> **Governança de risco (2.0 → 3.0).** Toda tarefa declara uma classe de risco — **R0** (docs,
+> estilo, refac coberta por teste: um agente + CI), **R1** (regra de negócio, endpoint, schema:
+> um autor + revisão de diff pelo outro), **R2** (auth, pagamento, PII, infra, migração: plano,
+> revisão cruzada e aprovação humana). O ambiente 3.0 (contrato `AGENTS.md`, skills, toolchain,
+> CI) é montado pelos PRs de ambiente com seus próprios gates G0–G6; ver `AGENTS.md` e o roadmap
+> de implementação.
 
 ---
 
@@ -40,8 +51,14 @@ humano valida.
 | Ator | Papel no processo |
 |---|---|
 | **Cliente** | Origem do pedido. Fornece requisitos, aprova o visual e valida a entrega. Participante externo. |
-| **Dev / Humano (Onda)** | Conduz o processo, faz as perguntas certas, decide arquitetura, valida as saídas da IA e fala com o cliente. |
-| **IA / Agentes (Claude Code)** | Gera artefatos (specs, layout, código, testes), executa o TDD e roda revisões — sempre sob supervisão do humano. |
+| **Dev / Humano (Onda)** | Conduz o processo, faz as perguntas certas, decide arquitetura, valida as saídas da IA, aprova R2 e fala com o cliente. |
+| **IA — Claude Code** | Par de programação no terminal/VS Code. Contexto quente em projeto legado, direção visual, TDD e revisão crítica de mudanças do Codex. |
+| **IA — Codex** | Mesa de orquestração (Codex Desktop). Descoberta e pesquisa, produção diária em projeto novo, worktrees, release e documentação estruturada. |
+
+Regra de autoria: **um agente é o autor do diff**; o outro revisa apenas quando o risco exige
+(R1/R2) e recebe o mínimo suficiente — contrato, diff, logs de teste — sem reanálise completa
+do repositório. Nunca dois agentes escrevendo no mesmo checkout. Quando a cota de um acaba, o
+outro assume por `handoff` (`.ondadev/README.md`).
 
 ---
 
@@ -80,7 +97,9 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
 - **Entrada:** pedido aceito, projeto iniciado.
 - **Atividades:** clonar o template `onda-starter`; ativar a skill de perfil conforme o tipo (e-commerce, app, LP, sistema, automação); criar o **registro de métricas** `docs/METRICAS-PROJETO.md` (template vem no `onda-starter`) e preencher o bloco de kickoff — as 4 datas, o valor do contrato + moeda, o canal (Workana/direto) com comissão/saque/tributo, o valor/hora alvo. O custo/hora interno da empresa fica no sibling privado do projeto, nunca no repo (ver seção 14).
 - **Saída:** repositório preparado, contexto enxuto.
-- **Ator:** Humano + IA.
+- **Skill:** `ondadev-discovery` (perfis viram referência sob demanda).
+- **Responsável:** Codex (descoberta) · Humano aprova.
+- **Evidência:** repo clonado com `ONDA_VERSION`, perfil carregado, `docs/METRICAS-PROJETO.md` iniciado.
 
 ### Fase 1 — Spec Viva (gera o `CLAUDE.md`)
 *Transforma o pedido (muitas vezes vago) na especificação viva do projeto.*
@@ -94,7 +113,9 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   5. Geração do `CLAUDE.md` + `spec.md`.
 - **Decisão — G1:** *Requisitos claros o suficiente?* Não → volta ao briefing. Sim → avança.
 - **Saída:** `CLAUDE.md` (fonte única da verdade) + `spec.md`.
-- **Ator:** Humano conduz · Cliente fornece · IA redige.
+- **Skill:** `ondadev-spec`.
+- **Responsável:** Humano conduz · Cliente fornece · IA redige.
+- **Evidência:** épicos e histórias com critérios Dado/Quando/Então; módulos de risco com 2+ critérios; dados classificados por `docs/security/data-classification.md`.
 
 ### Fase 2 — Layout & Congelamento Visual
 *Mitiga o risco de o cliente mudar o fluxo depois e destruir o banco. É condicional.*
@@ -106,7 +127,9 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
 - **Fase 2b (Layout):** a IA lê o `CLAUDE.md` + a identidade do projeto e gera o front 100% estático com dados fictícios (hierarquia, responsividade, acessibilidade AA, estados de erro/carregamento).
 - **Decisão — G3:** *Layout aprovado?* Não → revisa. Sim → **Congelamento Visual**: a partir daqui, mudar o visual é mudança de escopo.
 - **Saída:** protótipo aprovado e congelado; `tokens.css` definido.
-- **Ator:** IA gera · Cliente aprova · Humano media.
+- **Skill:** `ondadev-experience` (cobre 2a Direção Visual e 2b Layout).
+- **Responsável:** Claude (direção visual e layout) · Cliente aprova · Humano media.
+- **Evidência:** protótipo navegável com acessibilidade AA (contraste ≥ 4.5:1, alvo ≥ 44px), estados loading/erro/vazio/sucesso, e `design/tokens.css` + `design/DESIGN.md`.
 
 > **Nota de prazo.** Se houve criação de identidade (Fase 2a), o termo da Fase 2 cresce de ~2 para ~4 dias — e isso é precificado como item próprio.
 
@@ -122,12 +145,15 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   5. Rastreabilidade história ↔ módulo (relação N:1).
   6. Cada módulo nasce com `**Status:** ⬜ Pendente` — é o quadro Kanban do projeto (ver seção 12).
 - **Saída:** `ROADMAP.md` + contratos + **prazo técnico calculado**.
-- **Ator:** Humano decide arquitetura · IA gera o roteiro.
+- **Skill:** `ondadev-blueprint`.
+- **Responsável:** Humano decide arquitetura · Codex gera o roteiro. ADR para decisão durável; threat model se houver módulo R2.
+- **Evidência:** ERD, módulos independentes com peso, contratos Request/Response, rastreabilidade história ↔ módulo, tabela de parcelas do prazo.
 
 ### Fase 4 — Esteira XP (codificação por módulo)
 *Fluxo contínuo (Kanban), consumindo o `ROADMAP.md`. Pesado no terminal (Claude Code).*
 
-- **Abertura — Diretiva Primária:** “Leia o `CLAUDE.md` e o `ROADMAP.md`; a partir de agora, não altere a sintaxe do código existente.”
+- **Skill:** `ondadev-build`. **Responsável:** Claude (legado com contexto quente) ou Codex (projeto novo, em worktree); o outro revisa R1/R2.
+- **Abertura — Diretiva Primária:** “Leia o `CLAUDE.md` e o `ROADMAP.md`; a partir de agora, não altere a sintaxe do código existente sem um teste que justifique a quebra.”
 - **Ciclo TDD:**
   - **Red:** IA escreve testes com mocks; eles falham.
   - **Green:** só o código necessário para passar.
@@ -142,7 +168,9 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   - **G5 — Pedido de mudança?** Sim → **retorno à Fase 1**.
   - **G6 — Mais módulos na fila?** Sim → puxa o próximo · Não → avança.
 - **Saída:** todos os módulos testados e commitados.
-- **Ator:** IA codifica · Humano supervisiona e valida.
+- **Responsável:** IA codifica · Humano supervisiona e valida.
+- **Evidência por tipo:** negócio → testes de contrato/integração verdes; UI → testes de componente + acessibilidade + revisão visual; API → contrato Request/Response validado; banco → migração para a frente e rollback ensaiado; infraestrutura → policy/plan revisado; documentação → lint e links.
+- **Continuidade:** se a cota acabar no meio de um módulo, `handoff` pelo `.ondadev/` (checkpoint a 75%, só unidade atômica a 90%, handoff a 100%).
 
 > **O coração entra cedo.** O módulo de maior risco (gateway de pagamento, máquina de estados,
 > motor de permissões) é puxado no **início** da Fase 4 — nunca no fim. Falhar cedo é barato;
@@ -160,7 +188,9 @@ Scaffolding · Spec Viva · Layout & Congelamento · Blueprint · Esteira XP · 
   5. **Análise de KPIs de fechamento:** rodar a análise pelo padrão da empresa (`docs/METRICAS-KPI.md`), gerando `docs/ANALISE-PROJETO-<nome>.md` — prazo, DORA, fluxo, valor agregado, financeiro de serviços, SPACE, cliente. Feita **perto do fim**, assim que o escopo está estável; não precisa esperar o deploy. Prompt operacional: `docs/PROMPT-ANALISE-KPI.md`. Ver seção 14.
 - **Decisão — G7:** *Smoke test + validação OK?* Não → **retorno à Fase 4**. Sim → avança.
 - **Saída:** **Deploy via CI/CD** → software em produção; `docs/ANALISE-PROJETO-<nome>.md` no histórico da empresa.
-- **Ator:** Humano valida · IA executa · Cliente recebe.
+- **Skill:** `ondadev-release`.
+- **Responsável:** Codex executa · Humano valida e autoriza o deploy · Cliente recebe. (Deploy, push e merge sempre com autorização humana explícita.)
+- **Evidência:** smoke test verde, validação humana ponta a ponta, revisão de segurança, `memoria-tecnica/` revisada, `docs/ANALISE-PROJETO-<nome>.md` gerado.
 
 ---
 
@@ -181,6 +211,11 @@ governança do fluxo.
 
 > A **análise de KPIs de fechamento** (seção 14) é atividade obrigatória da Fase 5, não um gateway —
 > não bloqueia o deploy, mas a Fase 5 não se encerra sem ela.
+
+> **Não confundir com os gates de ambiente.** G1–G7 acima são pontos de decisão **do fluxo de um
+> projeto**. Os gates **G0–G6** citados no roadmap de implementação são outra coisa: marcos de
+> PR para montar o ambiente OndaDev 3.0 (baseline, toolchain, contrato, skills, worktrees,
+> failover, CI). Mesma letra, escopos diferentes.
 
 ---
 
@@ -249,27 +284,35 @@ Nenhuma entrega fecha sem responder “sim” às três camadas da marca. Faltou
 
 ## 9. Divisão de ferramentas por fase
 
-Todo o ciclo roda dentro do **VSCode + extensão Claude Code** — interface visual, markdown renderizado e acesso direto ao repositório. A única exceção é a Fase 2b, que usa o Claude Design para geração de interface.
+**VS Code é o editor canônico** de todo o ciclo — Claude Code e Codex são suportados nele.
+**Codex Desktop** entra como mesa de orquestração (worktrees, tarefas longas, pesquisa).
+**Claude Code** é o par no terminal/VS Code, forte em contexto quente e revisão crítica. A Fase
+2b usa o Claude Design para geração de interface. Antigravity só como laboratório visual
+opcional, nunca como orquestrador padrão.
 
-| Fase | Ferramenta | Por quê |
-|---|---|---|
-| 1 · Spec Viva | Claude Code / VSCode | Escreve `CLAUDE.md` e `spec.md` direto no repositório. |
-| 2a · Direção Visual | Claude Code / VSCode | Decisão estratégica de marca; gera `tokens.css` + `DESIGN.md`. |
-| 2b · Layout | Claude Design | Recurso exclusivo de geração visual de interface. |
-| 3 · Blueprint | Claude Code / VSCode | Escreve `ROADMAP.md` direto no repositório. |
-| 4 · Esteira XP / TDD | Claude Code / VSCode | Lê/escreve código e roda testes. |
-| 5 · Homologação | Claude Code / VSCode | Docker, scripts, deploy e a análise de KPIs de fechamento (seção 14). |
+| Fase | Agente principal | Segundo agente | Por quê |
+|---|---|---|---|
+| 0 · Descoberta | Codex | Claude só se for decisão crítica | Pesquisa e artefatos sem gastar a cota do Claude. |
+| 1 · Spec Viva | Humano + IA que redige | — | Destravar ambiguidade antes de arquitetura. |
+| 2 · Experiência | Claude (Design) | Codex revisa responsivo/acessível | Separa intenção visual de engenharia. |
+| 3 · Blueprint | Codex | Claude critica uma ADR curta | Duas perspectivas, uma implementação. |
+| 4 · Esteira XP | Claude (legado) ou Codex (novo, worktree) | o outro revisa R1/R2 | Preserva contexto quente; isola o trabalho novo. |
+| 5 · Release | Codex | Claude só se houver risco técnico | Trabalho estruturado e automatizável. |
 
 ### Ponto de entrada por fase
 
-| Fase | Onde | Comando / ação |
-|---|---|---|
-| 0 · Scaffolding | Terminal | `git clone onda-starter nome-do-projeto && code .` |
-| 1 · Spec Viva | VSCode / Claude Code | `/onda-spec-viva` |
-| 2b · Layout | VSCode / Claude Code | `/onda-layout` |
-| 3 · Blueprint | VSCode / Claude Code | `/onda-blueprint` |
-| 4 · Esteira XP | VSCode / Claude Code | Diretiva Primária + ciclo TDD por módulo |
-| 5 · Homologação | VSCode / Claude Code | Smoke test + validação + deploy + análise de KPIs (`docs/PROMPT-ANALISE-KPI.md`) |
+| Fase | Onde | Ação | Skill |
+|---|---|---|---|
+| 0 · Descoberta | Terminal / VS Code | `git clone onda-starter nome && code .` | `ondadev-discovery` |
+| 1 · Spec Viva | VS Code (Claude/Codex) | ativar a skill | `ondadev-spec` |
+| 2 · Experiência | VS Code + Claude Design | ativar a skill | `ondadev-experience` |
+| 3 · Blueprint | VS Code (Claude/Codex) | ativar a skill | `ondadev-blueprint` |
+| 4 · Esteira XP | VS Code (Claude/Codex) | Diretiva Primária + ciclo TDD por módulo | `ondadev-build` |
+| 5 · Release | VS Code (Claude/Codex) | smoke test + validação + deploy + KPIs | `ondadev-release` |
+
+> As skills `ondadev-*` valem para os dois agentes. Os comandos legados `onda-*` (`/onda-novo`,
+> `/onda-spec-viva`, `/onda-layout`, `/onda-blueprint`, perfis…) continuam funcionando com aviso
+> de depreciação até o fim do piloto e depois são removidos.
 
 ---
 
@@ -277,62 +320,52 @@ Todo o ciclo roda dentro do **VSCode + extensão Claude Code** — interface vis
 
 O ecossistema de desenvolvimento da Onda — skills, agentes e ferramentas — está versionado no próprio `onda-starter`, dentro da pasta `setup/`. Isso garante que qualquer máquina nova seja configurada de forma idêntica em minutos, sem dependência de memória ou configuração manual.
 
-### Estrutura de setup
+### Estrutura de setup (3.0)
 
 ```
 onda-starter/
-└── setup/
-    ├── install.sh              ← script de instalação automatizada
-    ├── CHECKLIST.md            ← passos manuais restantes
-    └── claude/
-        ├── commands/           ← todas as skills (/onda-novo, /onda-spec-viva, perfis…)
-        └── agents/             ← agentes (revisor-seguranca, testador-tdd, explorador)
+├── AGENTS.md                  ← contrato canônico (Claude e Codex); CLAUDE.md importa @AGENTS.md
+├── ONDA_VERSION               ← versão da metodologia que o projeto segue
+├── setup/
+│   ├── install.sh             ← instalador idempotente (--check / --dry-run / --component)
+│   ├── CHECKLIST.md           ← autenticação e ajustes manuais
+│   ├── worktree-setup.sh      ← preparo não interativo de um git worktree
+│   ├── shared/skills/         ← FONTE CANÔNICA das 6 skills ondadev-*
+│   ├── shared/sync-skills.sh  ← sincroniza para .claude/skills e .agents/skills
+│   └── claude/                ← comandos/agents legados (compat até o piloto)
+├── .claude/skills/  .agents/skills/   ← destinos gerados (não editar)
+├── .ondadev/                  ← protocolo de failover + template de handoff
+└── .github/workflows/ci.yml   ← validações, smoke do instalador, secret scanning
 ```
 
-### Situação: troca ou formatação de máquina
-
-Ao migrar para uma nova máquina, o processo completo é:
+### Troca ou formatação de máquina
 
 ```bash
-# 1. Clonar o template (que contém o setup)
-git clone https://github.com/JustinoCarneiro/onda-starter.git
-cd onda-starter
-
-# 2. Rodar o instalador — configura todas as ferramentas e skills automaticamente
-bash setup/install.sh
-
-# 3. Completar os passos manuais (auth, VSCode, PAT)
-cat setup/CHECKLIST.md
+git clone https://github.com/JustinoCarneiro/onda-starter.git && cd onda-starter
+bash setup/install.sh --dry-run          # revisar
+bash setup/install.sh                     # instalar (Node 22+, Docker, gh, Claude Code, skills)
+cat setup/CHECKLIST.md                    # auth, VS Code, extensão Codex, CI
 ```
 
-O `install.sh` instala e configura automaticamente: Git, Node.js (via nvm), Docker, GitHub CLI e Claude Code, e copia todas as skills e agentes para `~/.claude/`.
+O `install.sh` cuida de Git, Node.js 22+ (nvm), Docker, GitHub CLI, Claude Code e do espelho
+das skills canônicas em `~/.claude/skills/` e `~/.agents/skills/`. Não autentica contas nem
+instala extensão de IDE.
 
-### O que é automatizado vs. manual
+### Evoluir uma skill
 
-| Item | Automatizado | Manual |
-|---|---|---|
-| Git + identidade | ✅ | — |
-| Node.js 20 via nvm | ✅ | — |
-| Docker Engine | ✅ | — |
-| GitHub CLI (`gh`) | ✅ | — |
-| Claude Code CLI | ✅ | — |
-| Skills e agentes `~/.claude/` | ✅ | — |
-| Login Anthropic (`claude auth login`) | — | ✅ |
-| Login GitHub (`gh auth login`) | — | ✅ |
-| GitHub PAT (repo + workflow) | — | ✅ |
-| VSCode + extensão Claude Code | — | ✅ |
-| Chaves SSH para GitHub | — | ✅ (opcional) |
-
-### Situação: atualizar skills numa máquina existente
-
-Quando as skills ou agentes forem evoluídos, reaplicar na máquina local com:
+Edite **só** `setup/shared/skills/` e rode:
 
 ```bash
-cp setup/claude/commands/*.md ~/.claude/commands/
-cp setup/claude/agents/*.md ~/.claude/agents/
+bash setup/shared/sync-skills.sh          # atualiza os dois destinos + o manifesto de hashes
 ```
 
-> **Regra:** `setup/claude/` é a fonte única da verdade para o ecossistema de skills. Toda nova skill ou agente deve ser adicionada lá antes de ser copiada para `~/.claude/`.
+Os diretórios `ondadev-*` em `.claude/skills/` e `.agents/skills/` são cópias geradas; editá-los
+direto é sobrescrito pelo sync e acusado por `bash setup/tests/skills-drift.sh`.
+
+> **Regra:** `setup/shared/skills/` é a fonte única da verdade das skills; `AGENTS.md` é a do
+> contrato de trabalho. Um projeto derivado declara sua versão em `ONDA_VERSION` e não copia o
+> texto integral desta metodologia — só referencia a versão e mantém adaptações locais. Guia de
+> migração 2.0 → 3.0: `docs/migracao-2.0-para-3.0.md`.
 
 ---
 
@@ -559,6 +592,28 @@ seção 3.
 
 ---
 
+## 15. OndaDev 3.0 — o que mudou e onde está
+
+A 3.0 não muda as 6 fases nem o cálculo de prazo. Muda a infraestrutura e a governança:
+dois agentes (Claude Code + Codex) sob um contrato comum, VS Code canônico, skills
+compartilhadas, failover de cota e CI que valida a própria metodologia.
+
+| Assunto | Fonte canônica |
+| --- | --- |
+| Contrato de trabalho, risco R0/R1/R2, Definition of Done | `AGENTS.md` (raiz) |
+| Versão da metodologia deste projeto | `ONDA_VERSION` |
+| Guia de migração 2.0 → 3.0 | `docs/migracao-2.0-para-3.0.md` |
+| Skills das fases (`ondadev-*`) | `setup/shared/skills/` |
+| Failover de cota / handoff entre agentes | `.ondadev/README.md` |
+| Papéis Local (Claude) × Worktree (Codex) | `setup/WORKTREE.md` |
+| Ambiente do Codex e ações | `setup/codex/` + `.codex/` |
+| Validação automática (CI + hooks) | `.github/workflows/ci.yml` + `.pre-commit-config.yaml` |
+
+Regra de não-duplicação: cada artefato tem **uma** fonte. Esta metodologia descreve o **fluxo**;
+comandos exatos, contrato e procedimentos longos vivem nos arquivos acima, não aqui.
+
+---
+
 *Onda · Documento de processo — base para modelagem BPMN. Documento vivo: versionar a cada
-evolução do método. Toda decisão volta à pergunta-âncora:*
+evolução do método (versão atual em `ONDA_VERSION`). Toda decisão volta à pergunta-âncora:*
 **é belo no design, fluido no uso e seguro por dentro?**
