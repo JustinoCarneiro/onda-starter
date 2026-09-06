@@ -5,6 +5,12 @@ argument-hint: nome-do-cliente
 allowed-tools: Read, Write, Bash
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
+> **`ondadev-discovery`** (`setup/shared/skills/ondadev-discovery/`, referência
+> `references/proposta-comercial.md`). Este wrapper continua funcionando durante o
+> piloto e será removido após o PR-08. Prefira `/ondadev-discovery` (Claude) ou a
+> skill `ondadev-discovery` (Codex).
+
 # Geração de Proposta Comercial
 
 Cliente: **$ARGUMENTS**

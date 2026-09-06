@@ -18,6 +18,7 @@ criar implementação de negócio.
 | `docs/` | Metodologia, design system, QA e métricas reutilizáveis. |
 | `memoria-tecnica/` | Histórico de bugs e decisões; consulte antes de investigar. |
 | `setup/` | Diagnóstico e instalação do ambiente OndaDev. |
+| `setup/shared/skills/` | Fonte canônica das seis skills OndaDev; sincronizada para `.claude/skills/` e `.agents/skills/` (nunca edite os destinos). |
 | `scripts/` | Automações locais; `trello_sync.py` escreve fora do repositório. |
 | `docker-compose.yml` | PostgreSQL e pgAdmin de desenvolvimento local. |
 
@@ -45,6 +46,11 @@ bash setup/check-environment.sh
 bash setup/install.sh --dry-run
 bash setup/tests/install-smoke.sh
 bash scripts/validate-agent-context.sh
+
+# Skills OndaDev compartilhadas (fonte canônica -> destinos Claude e Codex)
+bash setup/shared/sync-skills.sh --check
+bash setup/tests/skills-drift.sh
+bash setup/tests/skills-frontmatter.sh
 
 # Serviços locais (cria/atualiza containers e volumes)
 docker compose config

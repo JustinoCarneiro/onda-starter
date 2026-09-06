@@ -5,6 +5,11 @@ argument-hint: ecommerce | app | lp | sistema | automacao
 allowed-tools: Bash, Write, Read
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
+> **`ondadev-discovery`** (`setup/shared/skills/ondadev-discovery/`). Este wrapper
+> continua funcionando durante o piloto e será removido após o PR-08. Prefira
+> `/ondadev-discovery` (Claude) ou a skill `ondadev-discovery` (Codex).
+
 # Fase 0 — Scaffolding
 
 Perfil solicitado: **$ARGUMENTS**

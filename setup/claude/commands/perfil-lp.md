@@ -3,6 +3,11 @@ name: perfil-lp
 description: Perfil arquitetural para sites institucionais e landing pages — foco em conversão e performance.
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Virou referência sob
+> demanda da skill **`ondadev-discovery`**
+> (`setup/shared/skills/ondadev-discovery/references/perfil-lp.md`). Este wrapper
+> continua funcionando durante o piloto e será removido após o PR-08.
+
 # Perfil: Site / Landing Page
 
 ## Contexto arquitetural

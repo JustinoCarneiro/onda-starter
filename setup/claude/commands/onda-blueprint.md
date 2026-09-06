@@ -4,6 +4,11 @@ description: Fase 3 — gera ROADMAP.md com módulos pesados, contratos de API e
 allowed-tools: Read, Write, Bash
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
+> **`ondadev-blueprint`** (`setup/shared/skills/ondadev-blueprint/`). Este wrapper
+> continua funcionando durante o piloto e será removido após o PR-08. Prefira
+> `/ondadev-blueprint` (Claude) ou a skill `ondadev-blueprint` (Codex).
+
 # Blueprint — Fase 3
 
 Você está na **Fase 3** da metodologia Onda-Dev. Gere a planta técnica completa antes de escrever qualquer código.
