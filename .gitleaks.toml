@@ -1,0 +1,18 @@
+title = "OndaDev — configuração do gitleaks"
+
+# Mantém todas as regras padrão do gitleaks e só adiciona exceções pontuais.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = """
+Fingerprint GPG e checksum SHA-256 públicos das chaves de assinatura usadas para
+verificar os downloads no setup/install.sh. São material de verificação público,
+não credenciais. Ver setup/install.sh (verificação do repositório apt do Claude
+Code e da chave do GitHub).
+"""
+regexTarget = "match"
+regexes = [
+  '''onda_claude_key_fingerprint=[0-9A-Fa-f]{40}''',
+  '''onda_github_key_sha256=[0-9A-Fa-f]{64}''',
+]
