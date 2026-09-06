@@ -20,6 +20,7 @@ criar implementação de negócio.
 | `setup/` | Diagnóstico e instalação do ambiente OndaDev. |
 | `setup/shared/skills/` | Fonte canônica das seis skills OndaDev; sincronizada para `.claude/skills/` e `.agents/skills/` (nunca edite os destinos). |
 | `setup/WORKTREE.md` | Papéis Local/Worktree e transferência segura entre eles. |
+| `.ondadev/` | Protocolo de failover de cota e template de handoff entre agentes. |
 | `.vscode/` | Extensões recomendadas e tarefas Setup/Lint/Test/Build/Run. |
 | `.env.example` | Modelo de ambiente local sanitizado; copie para `.env` (não versionado). |
 | `scripts/` | Automações locais; `trello_sync.py` escreve fora do repositório. |
@@ -57,6 +58,9 @@ bash setup/tests/skills-frontmatter.sh
 
 # Preparação/verificação de uma árvore de trabalho (git worktree)
 bash setup/worktree-setup.sh --check
+
+# Checkpoint de handoff entre agentes (só metadados seguros)
+bash scripts/ai-checkpoint.sh --stdout
 
 # Serviços locais (cria/atualiza containers e volumes)
 docker compose config
