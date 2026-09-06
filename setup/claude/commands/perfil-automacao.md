@@ -3,6 +3,11 @@ name: perfil-automacao
 description: Perfil arquitetural para automações — integrações entre sistemas, pipelines de dados, bots e webhooks.
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Virou referência sob
+> demanda da skill **`ondadev-discovery`**
+> (`setup/shared/skills/ondadev-discovery/references/perfil-automacao.md`). Este
+> wrapper continua funcionando durante o piloto e será removido após o PR-08.
+
 # Perfil: Automação
 
 ## Contexto arquitetural

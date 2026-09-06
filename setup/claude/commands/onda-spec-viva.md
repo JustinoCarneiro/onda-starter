@@ -4,6 +4,11 @@ description: Fase 1 — conduz o briefing estruturado e gera CLAUDE.md + spec.md
 allowed-tools: Read, Write, Bash
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
+> **`ondadev-spec`** (`setup/shared/skills/ondadev-spec/`). Este wrapper continua
+> funcionando durante o piloto e será removido após o PR-08. Prefira
+> `/ondadev-spec` (Claude) ou a skill `ondadev-spec` (Codex).
+
 # Spec Viva — Fase 1
 
 Você está na **Fase 1** da metodologia Onda-Dev. Transforme o pedido do cliente numa especificação viva e completa, seguindo o roteiro abaixo. Não avance sem respostas suficientes em cada bloco.

@@ -4,6 +4,11 @@ description: Fase 2b — gera o front 100% estático com dados fictícios a part
 allowed-tools: Read, Write, Edit, Bash
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
+> **`ondadev-experience`** (`setup/shared/skills/ondadev-experience/`). Este
+> wrapper continua funcionando durante o piloto e será removido após o PR-08.
+> Prefira `/ondadev-experience` (Claude) ou a skill `ondadev-experience` (Codex).
+
 # Layout & Congelamento Visual — Fase 2b
 
 Você está na **Fase 2b** da metodologia Onda-Dev. Gere um front 100% estático, aprovável pelo cliente.

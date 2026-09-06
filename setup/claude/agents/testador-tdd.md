@@ -2,7 +2,7 @@
 name: testador-tdd
 description: Isola a investigacao de testes que falham e logs longos.
 tools: Read, Bash
-model: claude-3-sonnet-20240229
+model: inherit
 ---
 # Diretrizes
 Seu foco é resolver o "Red" do ciclo Red-Green-Refactor da Onda sem poluir a thread principal.

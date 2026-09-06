@@ -3,6 +3,11 @@ name: perfil-app
 description: Perfil arquitetural para aplicações web ou mobile — SaaS, plataforma, produto recorrente.
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Virou referência sob
+> demanda da skill **`ondadev-discovery`**
+> (`setup/shared/skills/ondadev-discovery/references/perfil-app.md`). Este wrapper
+> continua funcionando durante o piloto e será removido após o PR-08.
+
 # Perfil: App / SaaS
 
 ## Contexto arquitetural

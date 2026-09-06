@@ -3,6 +3,11 @@ name: perfil-sistema
 description: Perfil arquitetural para sistemas internos — gestão, operação, backoffice com múltiplos perfis de acesso.
 ---
 
+> ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Virou referência sob
+> demanda da skill **`ondadev-discovery`**
+> (`setup/shared/skills/ondadev-discovery/references/perfil-sistema.md`). Este
+> wrapper continua funcionando durante o piloto e será removido após o PR-08.
+
 # Perfil: Sistema Interno
 
 ## Contexto arquitetural

@@ -27,6 +27,11 @@ bash setup/install.sh --component claude
 
 Componentes aceitos: git, node, docker, gh, claude, skills e all.
 
+O componente `skills` espelha as seis skills canônicas OndaDev
+(`setup/shared/skills/`) em `~/.claude/skills/` e, se o Codex CLI estiver
+presente, em `~/.agents/skills/`. A fonte canônica é sincronizada para os
+destinos do repositório por `bash setup/shared/sync-skills.sh`.
+
 O instalador não autentica contas, não instala extensões do VS Code e não
 configura qualquer chave de API.
 
@@ -37,6 +42,7 @@ configura qualquer chave de API.
 - [ ] Docker Engine pelo repositório apt assinado
 - [ ] GitHub CLI pelo repositório oficial
 - [ ] Claude Code pelo repositório apt assinado, canal stable
+- [ ] Skills OndaDev canônicas espelhadas em `~/.claude/skills/` (e `~/.agents/skills/` com Codex)
 - [ ] Comandos e agentes Claude legados, preservando alterações locais por padrão
 
 O instalador não sobrescreve assets legados diferentes em ~/.claude sem a
@@ -46,8 +52,9 @@ opção explícita:
 bash setup/install.sh --component skills --overwrite-legacy-assets
 ~~~
 
-Essa compatibilidade é temporária: o PR-03 migrará esses arquivos para skills
-compartilhadas de Claude e Codex.
+Essa compatibilidade é temporária: os comandos legados já foram consolidados nas
+seis skills canônicas de `setup/shared/skills/` (PR-03) e carregam aviso de
+depreciação. Serão removidos após o piloto (PR-08).
 
 ## 3. Docker sem sudo é opt-in
 

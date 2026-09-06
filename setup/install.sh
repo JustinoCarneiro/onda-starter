@@ -41,7 +41,7 @@ onda_usage() {
     '  --dry-run                       Mostra alterações sem executá-las.' \
     '  --component NOME                Instala apenas: git, node, docker, gh, claude, skills ou all.' \
     '  --add-user-to-docker-group      Autoriza adicionar o usuário atual ao grupo docker.' \
-    '  --overwrite-legacy-assets       Sobrescreve commands/agents Claude já existentes.' \
+    '  --overwrite-legacy-assets       Sobrescreve commands/agents Claude legados já existentes.' \
     '  -h, --help                       Exibe esta ajuda.' \
     '' \
     'Por padrão, tenta instalar todos os componentes em Ubuntu/Debian.' \
@@ -414,7 +414,39 @@ onda_install_legacy_claude_assets() {
 
   onda_copy_legacy_asset_group "$onda_script_dir/claude/commands" "$claude_home/commands"
   onda_copy_legacy_asset_group "$onda_script_dir/claude/agents" "$claude_home/agents"
-  onda_warn 'Os assets legados serão migrados para skills compartilhadas no PR-03.'
+  onda_warn 'Comandos/agents legados: compatibilidade temporária; serão removidos após o piloto (PR-08).'
+}
+
+onda_copy_shared_skill_tree() {
+  local destination_root="$1"
+  local skills_source="$onda_script_dir/shared/skills"
+  local skill_dir skill_name copied=0
+
+  [ -d "$skills_source" ] || return
+
+  onda_run mkdir -p "$destination_root"
+
+  for skill_dir in "$skills_source"/ondadev-*/; do
+    [ -d "$skill_dir" ] || continue
+    skill_name="$(basename "$skill_dir")"
+    onda_run rm -rf "$destination_root/$skill_name"
+    onda_run cp -R "$skills_source/$skill_name" "$destination_root/$skill_name"
+    copied=$((copied + 1))
+  done
+
+  onda_ok "$copied skill(s) OndaDev espelhada(s) em $destination_root"
+}
+
+onda_install_shared_skills() {
+  onda_copy_shared_skill_tree "$HOME/.claude/skills"
+
+  if command -v codex >/dev/null 2>&1; then
+    onda_copy_shared_skill_tree "$HOME/.agents/skills"
+  else
+    onda_info 'Codex CLI não detectado; skills OndaDev não espelhadas em ~/.agents/skills.'
+  fi
+
+  onda_info 'Fonte canônica: setup/shared/skills. Verifique com: bash setup/shared/sync-skills.sh --check'
 }
 
 onda_check_git_identity() {
@@ -499,6 +531,7 @@ onda_main() {
     onda_install_claude
   fi
   if onda_has_component skills; then
+    onda_install_shared_skills
     onda_install_legacy_claude_assets
   fi
 
