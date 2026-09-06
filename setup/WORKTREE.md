@@ -25,7 +25,7 @@ bash setup/worktree-setup.sh
 - **Uma branch por worktree.** A mesma branch não pode estar em checkout em dois
   worktrees ao mesmo tempo — o Git recusa, e é proposital.
 - Nenhum segredo real é copiado para o worktree. Arquivos ignorados
-  (`.env`, `.codex/auth.json`, `~/.trello_env`) não acompanham o worktree.
+  (`.env`, `.env.jira`, `.codex/auth.json`) não acompanham o worktree.
 - Não há `.worktreeinclude` neste starter: nenhum arquivo ignorado não secreto é
   indispensável para trabalhar num worktree novo. Crie um só se isso mudar.
 

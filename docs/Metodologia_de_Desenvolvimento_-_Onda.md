@@ -435,8 +435,9 @@ com um vocabulário próprio (ver "Padronização de vocabulário" abaixo).*
 ### O que é e por quê
 
 A seção 4 sempre falou em "fluxo Kanban" na Fase 4, mas nunca disse **onde** esse Kanban mora.
-Este é o padrão oficial: **o quadro Kanban não é uma ferramenta externa (Trello, Jira) — é o
-próprio `ROADMAP.md`.**
+Este é o padrão oficial: **o quadro Kanban de progresso não é uma ferramenta externa — é o
+próprio `ROADMAP.md`.** O Jira (seção 13) é um espelho visual do status para o cliente e para
+gestão, não a fonte da verdade do progresso.
 
 ### Convenção — vocabulário único, sem variações
 
@@ -474,49 +475,60 @@ Um projeto pode (e frequentemente deve) ter os dois — não são concorrentes.
 
 ## 13. Padrão de Gestão Visual (Kanban 9 Colunas)
 
-O Trello da Onda não é uma ferramenta separada da documentação técnica; ele é o seu espelho visual. **Regra de Ouro da Sincronização:** Toda e qualquer especificação funcional criada, alterada ou deletada (nos arquivos `CLAUDE.md`, `ROADMAP.md` ou `spec.md`) deve obrigatoriamente engatilhar o utilitário local `./scripts/trello_sync.py` para sincronizar o quadro do projeto correspondente. A documentação e o Trello são a mesma entidade.
+A ferramenta de gestão visual da Onda é o **Jira** (`ondaenterprise.atlassian.net`), um projeto
+**team-managed** com template Kanban por cliente. Ele é o espelho visual do status; a fonte da
+verdade continua sendo `docs/product/spec.md` + `ROADMAP.md`. Uma spec criada, alterada ou
+removida atualiza primeiro os arquivos locais; o Jira é acertado depois, à mão na UI. Não há
+script de sincronização de issues: a API REST de projeto team-managed não expõe as operações
+necessárias (associar campo a layout, entre outras — ver
+`memoria-tecnica/bugs/jira-team-managed-endpoints-bloqueados.md`).
 
-> **Credencial do `trello_sync.py` (30/07/2026):** o script lê `TRELLO_KEY`/`TRELLO_TOKEN` de
-> variável de ambiente — nunca hardcoded no código (já vazou hardcoded uma vez antes de ser
-> commitado; corrigido a tempo). É a mesma credencial de conta pra todos os projetos Onda, então
-> vive em **um lugar só**, fora de qualquer repositório: `~/.trello_env` (`chmod 600`), carregado
-> automaticamente pelo `~/.zshrc` via `[ -f ~/.trello_env ] && source ~/.trello_env`. Pra gerar uma
-> credencial nova (perdeu/rotacionou): `trello.com/power-ups/admin` → Power-Up "Onda Sync" → API
-> key → gerar Token a partir de lá.
+### Setup do quadro (uma vez por projeto)
 
-Para comportar o fluxo das 5 Fases da Onda (do Design ao Deploy), o quadro oficial de Kanban no Trello deve ter *exatamente* e *apenas* as seguintes **9 listas (colunas)** na ordem especificada:
+`scripts/jira_browser/` automatiza a **configuração** do board (colunas, WIP, campos) via
+navegador, porque a API não deixa. Nenhuma credencial passa por código:
 
-1. **📚 Base de Conhecimento (Docs / Memória Técnica):**
-   - Usado para abrigar links para documentações oficiais e notas de memória técnica rápidas (ex: resoluções de problemas recorrentes e causas raiz, vivendo diretamente no board).
-2. **❄️ Icebox (Banco de Ideias):**
-   - Ideias, sugestões e pedidos de melhoria que ainda não foram priorizados ou detalhados. Separa claramente o que "talvez aconteça" do backlog real de trabalho.
-3. **📋 Backlog (Especificações e Épicos):**
-   - Tarefas e épicos aprovados e detalhados.
-   - **Regra de Ouro (Regra 2a):** *Documentação antes da codificação*. Os cards aqui devem ser "spec-driven", contendo a especificação da feature ou o link para o `spec.md`, antes de irem para desenvolvimento.
-4. **🏗️ Requisitos Não-Funcionais & Arquitetura:**
-   - Coluna dedicada exclusivamente para débitos técnicos, tarefas de segurança, performance, LGPD, decisões de infraestrutura e arquitetura/design. Preenche a lacuna de não misturar melhorias estruturais com entregas funcionais (épicos/histórias) do negócio.
-5. **🎯 A Fazer (To Do / Ready):**
-   - Cards do backlog que estão priorizados, refinados, e prontos para serem puxados pela equipe no ciclo atual.
-6. **⚙️ Em Execução (Doing / In Progress):**
-   - O que está sendo ativamente codificado ou configurado neste exato momento.
-7. **🔍 Code Review / Testes:**
-   - Revisão de código, testes unitários, testes E2E e validação técnica interna antes de ir para o ambiente do cliente.
-8. **🧪 UAT (Homologação / Validação do Cliente):**
-   - Validação da entrega (Aceitação do Usuário) junto ao cliente ou key user. Alinha-se diretamente com a **Fase 5** da metodologia Onda.
-9. **✅ Concluído (Done 🎉):**
-   - Tudo que já foi testado, aprovado pelo cliente, homologado e entregue em produção.
+```bash
+cd scripts/jira_browser && python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+./start_browser.sh                      # Chrome dedicado; logue no Jira uma vez, à mão
+python3 add_columns.py   <PROJECT_KEY> <BOARD_ID>   # cria as 5 colunas Onda
+python3 set_wip_limits.py <PROJECT_KEY> <BOARD_ID>  # Max: Em Execução=2, Code Review=3
+python3 add_fields.py    <PROJECT_KEY> <ISSUETYPE_ID> "Peso" "Dias Estimados"
+```
 
-### 13.1 Padrão de Escrita dos Cartões (Spec-Driven & Checklists)
+IDs de board (conferir se entrar projeto novo — `GET /rest/agile/1.0/board?projectKeyOrId=<KEY>`):
+SAW=6, MEL=3, MKT=4, LUC=5, HEL=2, VND=9. IDs de issuetype são globais: Epic=10000, Story=10007,
+Task=10008, Sub-task=10009, Bug=10010.
 
-Para que o board funcione como uma ferramenta ágil real (inspirada no Scrum) e não apenas um amontoado de lembretes, a escrita interna dos cartões deve seguir regras rígidas:
+### As 9 colunas
 
-- **Clareza de Épicos e Histórias de Usuário:** O título e a descrição devem comunicar claramente o valor de negócio (ex: "Como usuário, quero X para poder Y"). O contexto do requisito ou o link para o `spec.md` deve estar explícito.
-- **Checklists Contextuais ("Critérios de Aceite"):** É terminantemente proibido o uso de listas genéricas (boilerplates). Todo cartão refinado (movido para "A Fazer") deve conter uma lista nativa nomeada exclusivamente como `"Critérios de Aceite"`.
-- **Granularidade Técnica:** Os itens desse checklist devem traduzir a regra de negócio em entregas técnicas tangíveis (ex: *Criar índice PostGIS, Construir endpoint GET /search, Validar regra de no-show*). O cartão só atinge 100% de conclusão quando todos esses critérios técnicos específicos são validados.
+Ordem no board (confirmada via API nos 5 projetos de entrega). As posições 1–3 e 7–9 são o fluxo
+de trabalho; as 4 a 6 são colunas auxiliares.
 
-### 13.2 Padrão de Etiquetas (Tags)
+| # | Coluna | Categoria | Papel |
+|---|---|---|---|
+| 1 | **Backlog** | To Do | Épicos e histórias aprovados e detalhados. **Spec-driven**: a issue carrega a spec da feature ou o link para `spec.md` antes de ir para desenvolvimento. |
+| 2 | **A Fazer** | To Do | Itens priorizados, refinados e prontos para serem puxados no ciclo atual. |
+| 3 | **Em Execução** | In Progress | O que está sendo ativamente codificado agora. **WIP Max = 2.** |
+| 4 | **📚 Base de Conhecimento** | To Do | Links para documentação oficial e notas rápidas de memória técnica. |
+| 5 | **❄️ Icebox** | To Do | Ideias e pedidos ainda não priorizados. Separa "talvez" do backlog real. |
+| 6 | **🏗️ Requisitos Não-Funcionais & Arquitetura** | To Do | Débito técnico, segurança, performance, LGPD, decisões de infra/arquitetura — fora das entregas funcionais. |
+| 7 | **🔍 Code Review / Testes** | In Progress | Revisão de código, testes e validação técnica interna. **WIP Max = 3.** |
+| 8 | **🧪 UAT (Homologação / Validação do Cliente)** | In Progress | Aceitação do usuário junto ao cliente. Alinha-se à **Fase 5**. |
+| 9 | **Done** | Done | Testado, aprovado pelo cliente, homologado e em produção. |
 
-Para garantir rastreabilidade de responsabilidades e filtragem visual rápida, os quadros utilizam **apenas 6 etiquetas oficiais**, abolindo a criação de tags ad-hoc (ex: "Database", "Integração"). Todo cartão de requisito deve ter pelo menos uma destas alçadas associadas:
+### 13.1 Padrão de Escrita das Issues (Spec-Driven & Checklists)
+
+Para que o board funcione como uma ferramenta ágil real (inspirada no Scrum) e não apenas um amontoado de lembretes, a escrita interna das issues deve seguir regras rígidas:
+
+- **Clareza de Épicos e Histórias de Usuário:** O resumo e a descrição devem comunicar claramente o valor de negócio (ex: "Como usuário, quero X para poder Y"). O contexto do requisito ou o link para o `spec.md` deve estar explícito.
+- **Checklists Contextuais ("Critérios de Aceite"):** É terminantemente proibido o uso de listas genéricas (boilerplates). Toda issue refinada (movida para **A Fazer**) deve conter um checklist nomeado exclusivamente como `"Critérios de Aceite"` (checklist nativo ou sub-tasks).
+- **Granularidade Técnica:** Os itens desse checklist devem traduzir a regra de negócio em entregas técnicas tangíveis (ex: *Criar índice PostGIS, Construir endpoint GET /search, Validar regra de no-show*). A issue só atinge 100% de conclusão quando todos esses critérios técnicos específicos são validados.
+
+### 13.2 Padrão de Labels
+
+Para garantir rastreabilidade de responsabilidades e filtragem visual rápida, os quadros usam **apenas 6 labels oficiais** no Jira, abolindo tags ad-hoc (ex: "Database", "Integração"). Toda issue de requisito deve ter pelo menos uma destas associada:
 
 - 🔵 **Frontend (UI/UX):** Telas, layouts, SPA, mobile, responsividade.
 - 🟢 **Backend (Regras & APIs):** Serviços, banco de dados, regras de negócio, endpoints.

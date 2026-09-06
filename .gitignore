@@ -10,6 +10,8 @@ build/
 *.jar
 *.war
 .env
+.env.*
+!.env.example
 
 # Obsidian (estado de UI local, não config compartilhada)
 .obsidian/workspace.json
