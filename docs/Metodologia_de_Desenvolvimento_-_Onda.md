@@ -478,10 +478,15 @@ Um projeto pode (e frequentemente deve) ter os dois — não são concorrentes.
 A ferramenta de gestão visual da Onda é o **Jira** (`ondaenterprise.atlassian.net`), um projeto
 **team-managed** com template Kanban por cliente. Ele é o espelho visual do status; a fonte da
 verdade continua sendo `docs/product/spec.md` + `ROADMAP.md`. Uma spec criada, alterada ou
-removida atualiza primeiro os arquivos locais; o Jira é acertado depois, à mão na UI. Não há
-script de sincronização de issues: a API REST de projeto team-managed não expõe as operações
-necessárias (associar campo a layout, entre outras — ver
-`memoria-tecnica/bugs/jira-team-managed-endpoints-bloqueados.md`).
+removida atualiza primeiro os arquivos locais; o Jira é acertado depois, na UI.
+
+**Não há regra de ouro de sincronização automática.** A tentativa anterior (rodar um
+`jira_sync.py` a cada edição de `CLAUDE.md`/`ROADMAP.md`/`spec.md`) recriava issues em
+duplicata a cada commit — abandonada. CRUD de issue via API funciona e um projeto derivado pode
+manter um script próprio para lotes pontuais, mas nunca disparado por edição de doc. A
+configuração de board (colunas, WIP, associar campo ao layout) **não** tem API em projeto
+team-managed — só a automação de navegador abaixo. Ver
+`memoria-tecnica/bugs/jira-team-managed-endpoints-bloqueados.md`.
 
 ### Setup do quadro (uma vez por projeto)
 
