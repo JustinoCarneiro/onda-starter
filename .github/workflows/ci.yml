@@ -1,26 +1,47 @@
-name: CI / Smoke Tests
+name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [master, main]
   pull_request:
-    branches: [ main, master ]
+    branches: [master, main]
+
+# Permissão mínima: os jobs só leem o repositório. Nenhum job escreve.
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  smoke-test:
+  validate:
+    name: Validações determinísticas
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Relatório de CI
+        run: bash scripts/ci-report.sh
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+  installer-smoke:
+    name: Smoke do instalador (Ubuntu limpo)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: Smoke test
+        run: bash setup/tests/install-smoke.sh
 
-      - name: Subir containers em background
-        run: docker-compose up -d
-
-      - name: Rodar testes (Placeholder)
-        run: echo "Aqui entram os comandos de teste da Fase 5 (Homologação)"
-
-      - name: Derrubar containers
-        if: always()
-        run: docker-compose down
+  secret-scan:
+    name: Secret scanning
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (histórico completo)
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Instalar pre-commit
+        run: pipx install pre-commit
+      - name: gitleaks + detect-private-key
+        run: pre-commit run --all-files --show-diff-on-failure gitleaks detect-private-key
