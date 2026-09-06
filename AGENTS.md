@@ -23,7 +23,8 @@ criar implementação de negócio.
 | `.ondadev/` | Protocolo de failover de cota e template de handoff entre agentes. |
 | `.vscode/` | Extensões recomendadas e tarefas Setup/Lint/Test/Build/Run. |
 | `.github/workflows/` | CI: validações determinísticas, smoke do instalador e secret scanning. |
-| `.pre-commit-config.yaml` | Hooks locais (gitleaks + verificações OndaDev); espelham o CI. |
+| `.pre-commit-config.yaml` | Hooks locais (gitleaks + verificações OndaDev). |
+| `.gitleaks.toml` | Regras padrão do gitleaks + allowlist de material público de verificação. |
 | `.env.example` | Modelo de ambiente local sanitizado; copie para `.env` (não versionado). |
 | `scripts/` | Automações locais; `trello_sync.py` escreve fora do repositório. |
 | `docker-compose.yml` | PostgreSQL e pgAdmin de desenvolvimento local. |

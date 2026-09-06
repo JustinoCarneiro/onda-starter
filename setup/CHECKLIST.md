@@ -162,7 +162,8 @@ Resultado esperado neste estágio:
 ## 8. CI e hooks locais
 
 O CI (`.github/workflows/ci.yml`) roda sem segredos: validações determinísticas
-(`scripts/ci-report.sh`), smoke do instalador e secret scanning via pre-commit.
+(`scripts/ci-report.sh`), smoke do instalador e secret scanning (gitleaks em
+versão fixada, varredura do histórico completo, respeitando `.gitleaks.toml`).
 Permissão mínima (`contents: read`); actions de terceiros fixadas por SHA.
 
 Rodar o mesmo conjunto localmente:
