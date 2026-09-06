@@ -97,34 +97,57 @@ onda_run_check() {
   fi
 } > "$onda_tmp/tests.md"
 
-# --- aviso de cobrança por API ------------------------------------------------
-onda_apikey_note=''
-if [ -n "${ANTHROPIC_API_KEY-}" ]; then
-  onda_apikey_note='> ⚠️ ANTHROPIC_API_KEY está DEFINIDA no ambiente. Não use como fallback automático de cota — o Claude Code pode cobrar via API. Ver .ondadev/README.md.'
+# --- bloco automático (só a seção 0, entre os marcadores) -------------------
+{
+  if [ -n "${ANTHROPIC_API_KEY-}" ]; then
+    echo '> ⚠️ ANTHROPIC_API_KEY está DEFINIDA no ambiente. Não use como fallback automático de cota — o Claude Code pode cobrar via API. Ver .ondadev/README.md.'
+    echo
+  fi
+  echo "_Atualizado (UTC): ${onda_date}_"
+  echo
+  echo "- **Branch:** ${onda_branch}  ·  ${onda_track}"
+  echo "- **Último commit:** ${onda_commit}"
+  echo
+  cat "$onda_tmp/status.md"
+  echo
+  cat "$onda_tmp/tests.md"
+} > "$onda_tmp/auto.md"
+
+# --- escolher a base: current.md preserva as seções 1-9 já escritas --------
+if [ -f "$onda_current" ]; then
+  onda_base="$onda_current"
+else
+  onda_base="$onda_template"
 fi
 
-# --- montar current.md a partir do template --------------------------------
-awk -v date="$onda_date" -v branch="$onda_branch" -v commit="$onda_commit" \
-    -v track="$onda_track" -v apikey="$onda_apikey_note" \
-    -v statusfile="$onda_tmp/status.md" -v testsfile="$onda_tmp/tests.md" '
-  function dump(f,  l){ while ((getline l < f) > 0) print l; close(f) }
-  NR==1 && apikey!="" { print apikey; print "" }
-  /\*\*Data \(UTC\):\*\* <preenchido pelo script>/ {
-    print "- **Data (UTC):** " date; next }
-  /\*\*Branch:\*\* <preenchido pelo script>/ {
-    print "- **Branch:** " branch "  ·  " track; next }
-  /\*\*Último commit:\*\* <preenchido pelo script>/ {
-    print "- **Último commit:** " commit; next }
-  /<preenchido pelo script: git status/ { dump(statusfile); next }
-  /<preenchido pelo script: tabela de validações/ { dump(testsfile); next }
-  { print }
-' "$onda_template" > "$onda_tmp/current.md"
+if ! grep -q 'ai-checkpoint:auto:start' "$onda_base" \
+   || ! grep -q 'ai-checkpoint:auto:end' "$onda_base"; then
+  printf '[ERROR] marcadores ai-checkpoint:auto ausentes em %s.\n' "$onda_base" >&2
+  printf '        Apague %s e rode de novo para regenerar a partir do TEMPLATE.md.\n' "$onda_current" >&2
+  exit 1
+fi
+
+# Substitui só o trecho entre os marcadores; o resto do arquivo fica intacto.
+awk -v autofile="$onda_tmp/auto.md" '
+  /<!-- ai-checkpoint:auto:start -->/ {
+    print
+    while ((getline l < autofile) > 0) print l
+    close(autofile)
+    skip = 1
+    next
+  }
+  /<!-- ai-checkpoint:auto:end -->/ { skip = 0; print; next }
+  !skip { print }
+' "$onda_base" > "$onda_tmp/out.md"
 
 if [ "$onda_to_stdout" -eq 1 ]; then
-  cat "$onda_tmp/current.md"
+  cat "$onda_tmp/out.md"
 else
   mkdir -p "$(dirname "$onda_current")"
-  cp "$onda_tmp/current.md" "$onda_current"
-  printf '[OK] %s atualizado (%s).\n' "$onda_current" "$onda_date"
-  printf '     Preencha as seções de raciocínio (objetivo, decisões, próximos passos, riscos).\n'
+  cp "$onda_tmp/out.md" "$onda_current"
+  if [ "$onda_base" = "$onda_template" ]; then
+    printf '[OK] %s criado (%s). Preencha as seções 1 a 9.\n' "$onda_current" "$onda_date"
+  else
+    printf '[OK] %s: seção 0 atualizada (%s). Seções 1 a 9 preservadas.\n' "$onda_current" "$onda_date"
+  fi
 fi
