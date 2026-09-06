@@ -42,6 +42,8 @@ jobs:
         with:
           fetch-depth: 0
       - name: Instalar pre-commit
-        run: pipx install pre-commit
+        run: |
+          pipx install pre-commit || python3 -m pip install --user --break-system-packages pre-commit
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: gitleaks + detect-private-key
         run: pre-commit run --all-files --show-diff-on-failure gitleaks detect-private-key
