@@ -29,6 +29,12 @@ permanente, não uma questão em aberto a ser resolvida pelo piloto.
 ## Consequências
 
 - O rollout (PR-09) não depende do PR-08.
+- **Destino dos comandos legados.** Como o PR-08 deixa de existir como marco, o
+  gatilho para remover `setup/claude/commands/` e `setup/claude/agents/` (e o
+  caminho de compat em `setup/install.sh`) passa a ser a retro leve do ponto 2:
+  quando ~5–10 tarefas reais confirmarem que as skills `ondadev-*` cobrem os
+  fluxos dos comandos `onda-*`, um PR os remove. Até lá, seguem em depreciação
+  com aviso. ADR 0001 (ponto 6) aponta para cá.
 - Se o bloqueio de cota ficar crônico mesmo com o revezamento entre agentes, a
   resposta é **reduzir lote/escopo** e fechar apenas a unidade atômica em
   andamento — nunca contratar plano maior.

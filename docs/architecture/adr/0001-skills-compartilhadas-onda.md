@@ -36,7 +36,10 @@ para os dois destinos, manifesto de hashes e teste de drift.
    `model: inherit` — respeita o modelo e a cota da sessão, sem fixar versão.
 6. **Compatibilidade:** os 12 comandos legados em `setup/claude/commands/`
    continuam funcionando com um aviso de depreciação no topo, apontando para a
-   skill equivalente. Serão removidos após o piloto (PR-08).
+   skill equivalente. Serão removidos após a retro leve de rollout definida no
+   [ADR 0002](0002-capacidade-sob-orcamento-fixo.md) (ponto 2) — quando ~5–10
+   tarefas reais em repositórios migrados confirmarem que as skills `ondadev-*`
+   cobrem os fluxos que os comandos `onda-*` cobriam. Não há mais gatilho "PR-08".
 
 ## Consequências
 

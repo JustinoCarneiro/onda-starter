@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Bash
 
 > ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
 > **`ondadev-spec`** (`setup/shared/skills/ondadev-spec/`). Este wrapper continua
-> funcionando durante o piloto e será removido após o PR-08. Prefira
+> funcionando com aviso de depreciação e será removido após a retro de rollout (ADR 0002). Prefira
 > `/ondadev-spec` (Claude) ou a skill `ondadev-spec` (Codex).
 
 # Spec Viva — Fase 1

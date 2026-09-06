@@ -62,7 +62,8 @@ bash setup/tests/skills-frontmatter.sh    # ativação explícita e implícita
 | `ondadev-release` | 5 · Release e operação | — (nova) |
 
 Os comandos legados em `setup/claude/commands/` continuam funcionando com aviso
-de depreciação durante o piloto (PR-08) e serão removidos depois.
+de depreciação e serão removidos após a retro leve de rollout (ver
+`../../docs/architecture/adr/0002-capacidade-sob-orcamento-fixo.md`, ponto 2).
 
 ## Ativação
 

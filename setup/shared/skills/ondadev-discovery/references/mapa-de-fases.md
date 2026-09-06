@@ -22,7 +22,7 @@ artefatos de entrada da fase seguinte.
   caracteriza mudança de escopo e exige aditivo de prazo pelo peso do módulo
   afetado.
 
-## Comandos legados equivalentes (em depreciação até o PR-08)
+## Comandos legados equivalentes (em depreciação; removidos após a retro de rollout, ADR 0002)
 
 | Skill canônica | Comandos legados substituídos |
 | --- | --- |

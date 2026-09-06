@@ -52,8 +52,9 @@ explicitamente sua versão copiando esse arquivo e ajustando quando migrar. Ler
 
 ## Compatibilidade
 
-- Os comandos `onda-*` legados continuam resolvendo durante o piloto (PR-08) e
-  emitem aviso de migração. Serão removidos depois.
+- Os comandos `onda-*` legados continuam resolvendo com aviso de migração. Serão
+  removidos após a retro leve de rollout (ver `docs/architecture/adr/0002-capacidade-sob-orcamento-fixo.md`,
+  ponto 2), não mais "após o PR-08".
 - Nenhuma mudança quebra a estrutura de artefatos (`CLAUDE.md`, `spec.md`,
   `ROADMAP.md`, `memoria-tecnica/`, `docs/METRICAS-PROJETO.md`).
 - O cálculo de prazo (peso dos módulos) é idêntico.
