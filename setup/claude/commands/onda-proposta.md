@@ -7,8 +7,7 @@ allowed-tools: Read, Write, Bash
 
 > ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
 > **`ondadev-discovery`** (`setup/shared/skills/ondadev-discovery/`, referência
-> `references/proposta-comercial.md`). Este wrapper continua funcionando durante o
-> piloto e será removido após o PR-08. Prefira `/ondadev-discovery` (Claude) ou a
+> `references/proposta-comercial.md`). Este wrapper continua funcionando com aviso de depreciação e será removido após a retro de rollout (ADR 0002). Prefira `/ondadev-discovery` (Claude) ou a
 > skill `ondadev-discovery` (Codex).
 
 # Geração de Proposta Comercial

@@ -6,7 +6,7 @@ description: Perfil arquitetural para projetos de e-commerce — loja virtual, m
 > ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Virou referência sob
 > demanda da skill **`ondadev-discovery`**
 > (`setup/shared/skills/ondadev-discovery/references/perfil-ecommerce.md`). Este
-> wrapper continua funcionando durante o piloto e será removido após o PR-08.
+> wrapper continua funcionando com aviso de depreciação e será removido após a retro de rollout (ADR 0002).
 
 # Perfil: E-commerce
 

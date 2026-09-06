@@ -414,7 +414,7 @@ onda_install_legacy_claude_assets() {
 
   onda_copy_legacy_asset_group "$onda_script_dir/claude/commands" "$claude_home/commands"
   onda_copy_legacy_asset_group "$onda_script_dir/claude/agents" "$claude_home/agents"
-  onda_warn 'Comandos/agents legados: compatibilidade temporária; serão removidos após o piloto (PR-08).'
+  onda_warn 'Comandos/agents legados: compat com aviso de depreciação; removidos após a retro de rollout (ADR 0002), sem gatilho PR-08.'
 }
 
 onda_copy_shared_skill_tree() {

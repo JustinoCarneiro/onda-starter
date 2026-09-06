@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Edit, Bash
 
 > ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
 > **`ondadev-experience`** (`setup/shared/skills/ondadev-experience/`). Este
-> wrapper continua funcionando durante o piloto e será removido após o PR-08.
+> wrapper continua funcionando com aviso de depreciação e será removido após a retro de rollout (ADR 0002).
 > Prefira `/ondadev-experience` (Claude) ou a skill `ondadev-experience` (Codex).
 
 # Layout & Congelamento Visual — Fase 2b

@@ -6,7 +6,7 @@ allowed-tools: Read, Write, Bash
 
 > ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
 > **`ondadev-blueprint`** (`setup/shared/skills/ondadev-blueprint/`). Este wrapper
-> continua funcionando durante o piloto e será removido após o PR-08. Prefira
+> continua funcionando com aviso de depreciação e será removido após a retro de rollout (ADR 0002). Prefira
 > `/ondadev-blueprint` (Claude) ou a skill `ondadev-blueprint` (Codex).
 
 # Blueprint — Fase 3
