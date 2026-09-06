@@ -12,6 +12,11 @@ onda_components=all
 onda_apt_updated=0
 onda_script_dir="$(cd "$(dirname "$0")" && pwd)"
 onda_nvm_version=v0.40.3
+# SHA-256 do install.sh do nvm na tag acima (raw.githubusercontent.com).
+# Verificado antes de executar — uma retag/comprometimento da origem que altere
+# o conteúdo do script é barrada. Para bumpar a versão: baixar o novo install.sh,
+# `sha256sum`, e trocar as duas linhas juntas.
+onda_nvm_sha256=2d8359a64a3cb07c02389ad88ceecd43f2fa469c06104f92f98df5b6f315275f
 onda_claude_key_fingerprint=31DDDE24DDFAB679F42D7BD2BAA929FF1A7ECACE
 onda_github_key_sha256=6084d5d7bd8e288441e0e94fc6275570895da18e6751f70f057485dc2d1a811b
 
@@ -236,12 +241,14 @@ onda_install_node() {
     if [ "$onda_dry_run" -eq 1 ]; then
       onda_info "baixaria nvm $onda_nvm_version para arquivo temporário; nenhuma execução por pipe seria usada"
       onda_print_command curl --fail --show-error --location --proto '=https' --tlsv1.2 "https://raw.githubusercontent.com/nvm-sh/nvm/$onda_nvm_version/install.sh" --output '<arquivo-temporario>'
+      onda_info "verificaria o SHA-256 do script baixado ($onda_nvm_sha256) antes de qualquer execução"
       onda_print_command bash '<arquivo-temporario>' --no-use
     else
       local installer_tmp
       installer_tmp="$(mktemp)"
       onda_info "baixando nvm $onda_nvm_version para arquivo temporário; nenhuma execução por pipe será usada"
       onda_download_user "https://raw.githubusercontent.com/nvm-sh/nvm/$onda_nvm_version/install.sh" "$installer_tmp"
+      onda_verify_sha256 "$installer_tmp" "$onda_nvm_sha256" "o instalador do nvm $onda_nvm_version"
       onda_run bash "$installer_tmp" --no-use
       rm -f "$installer_tmp"
     fi

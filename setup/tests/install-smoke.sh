@@ -54,17 +54,38 @@ if ! onda_docker info >/dev/null 2>&1; then
   exit 2
 fi
 
+# O corpo do bash -lc roda DENTRO do container: as variáveis ($HOME, $before…)
+# devem expandir lá, não no host — aspas simples são de propósito.
+# shellcheck disable=SC2016
 onda_docker run --rm \
   --mount "type=bind,src=$onda_repo_root,dst=/workspace,readonly" \
   --workdir /workspace \
   ubuntu:24.04 \
   bash -lc '
     set -e
+
+    # 1. Contrato do --dry-run: não escreve nada, e o roteiro previsto está lá.
     bash setup/install.sh --help >/dev/null
     bash setup/install.sh --dry-run >/tmp/ondadev-install.out
     grep -F "[WARN] modo dry-run: nenhum comando ou arquivo será modificado." /tmp/ondadev-install.out
     grep -F "nvm install 22" /tmp/ondadev-install.out
+    grep -F "verificaria o SHA-256 do script baixado" /tmp/ondadev-install.out
     grep -F "O instalador não autentica contas" /tmp/ondadev-install.out
+
+    # 2. Caminho real de instalação de skills num HOME limpo. Não toca o
+    #    repositório (montado readonly): as skills vão para ~/.claude e ~/.agents.
+    export HOME=/tmp/ondadev-home
+    mkdir -p "$HOME"
+    bash setup/install.sh --component skills >/tmp/ondadev-skills.out
+    test -f "$HOME/.claude/skills/ondadev-build/SKILL.md"
+    test -f "$HOME/.agents/skills/ondadev-discovery/SKILL.md"
+    grep -F "compatibilidade temporária" /tmp/ondadev-skills.out
+
+    # 3. Idempotência: rodar de novo deixa a árvore de skills byte a byte igual.
+    before="$(find "$HOME/.claude/skills" "$HOME/.agents/skills" -type f -exec sha256sum {} + | sort)"
+    bash setup/install.sh --component skills >/dev/null
+    after="$(find "$HOME/.claude/skills" "$HOME/.agents/skills" -type f -exec sha256sum {} + | sort)"
+    test "$before" = "$after"
   '
 
-printf '[OK] smoke test do instalador concluído em Ubuntu 24.04.\n'
+printf '[OK] smoke test do instalador concluído em Ubuntu 24.04 (dry-run + install real de skills + idempotência).\n'
