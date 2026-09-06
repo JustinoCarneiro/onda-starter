@@ -23,12 +23,13 @@ Code* e do *Extreme Programming (XP)* com IA: no lugar da burocracia voltada à 
 pessoas, uma **iteratividade de engenharia** que garante adaptação a mudanças, entregas
 contínuas e altíssima qualidade técnica.
 
-> **Governança de risco (2.0 → 3.0).** Toda tarefa declara uma classe de risco — **R0** (docs,
-> estilo, refac coberta por teste: um agente + CI), **R1** (regra de negócio, endpoint, schema:
-> um autor + revisão de diff pelo outro), **R2** (auth, pagamento, PII, infra, migração: plano,
-> revisão cruzada e aprovação humana). O ambiente 3.0 (contrato `AGENTS.md`, skills, toolchain,
-> CI) é montado pelos PRs de ambiente com seus próprios gates G0–G6; ver `AGENTS.md` e o roadmap
-> de implementação.
+> **Governança de risco (2.0 → 3.0).** Toda tarefa declara uma classe de risco — **R0** (um
+> agente + CI), **R1** (um autor + revisão de diff pelo outro), **R2** (plano, revisão cruzada e
+> **aprovação humana**). Os exemplos e a fronteira exata de cada classe — inclusive que
+> **migração de schema/dados e mudança de auth são R2**, não R1 — vivem em `AGENTS.md` ›
+> "Segurança e classes de risco", fonte canônica desta matriz. O ambiente 3.0 (contrato
+> `AGENTS.md`, skills, toolchain, CI) é montado pelos PRs de ambiente com seus próprios gates
+> G0–G6; ver `AGENTS.md` e o roadmap de implementação.
 
 ---
 
