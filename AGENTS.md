@@ -100,11 +100,14 @@ Siga `docs/security/data-classification.md`. Nunca versione, exiba em logs ou
 cole em prompts: tokens, chaves API, senhas, cookies, dados pessoais reais ou
 exports de clientes. Use `.env` local e exemplos sem segredos.
 
+A matriz R0/R1/R2 abaixo é a **fonte canônica** das classes de risco de tarefa;
+a metodologia e as skills apontam para cá e não mantêm listas paralelas.
+
 | Nível | Exemplos | Regra |
 | --- | --- | --- |
-| R0 | Leitura, docs, templates, testes locais | Executar e validar normalmente. |
-| R1 | Código, dependência, schema, automação e configuração compartilhada | Declarar impacto, testar e pedir revisão. |
-| R2 | Produção, cobrança, credenciais, dados de cliente, exclusão e escrita externa | Exigir autorização explícita e alvo confirmado. |
+| R0 | Leitura, docs, templates, refac coberta por teste, testes locais | Um agente + CI; executar e validar normalmente. |
+| R1 | Regra de negócio, endpoint, schema aditivo, dependência, automação e configuração compartilhada | Um autor + revisão de diff pelo outro; declarar impacto e testar. |
+| R2 | Auth, pagamento, PII, produção e infra, **migração de schema ou de dados**, cobrança, credenciais, dados de cliente, exclusão e escrita externa | Plano + revisão cruzada + **autorização humana explícita** e alvo confirmado. |
 
 ## Definition of Done
 
