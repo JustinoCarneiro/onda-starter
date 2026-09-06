@@ -1,41 +1,10 @@
-# [Nome do Projeto]
+@AGENTS.md
 
-[Descrição em 1 linha.]
+## Claude Code
 
-## Stack
-- Backend:
-- Frontend:
-- Deploy:
-
-## Perfil de projeto
-[tipo] · [perfis de usuário] · [contexto]
-
-## Princípios (não-funcionais críticos)
-- [preencher na Fase 1]
-
-## Épicos
-[preencher na Fase 1 — gerado pelo onda-spec-viva]
-
-## Máquina de estados principal
-[preencher na Fase 1 se aplicável]
-
-## Diretivas de Gestão (Regra de Ouro do Trello)
-> **ATENÇÃO:** Toda vez que você (Claude/IA) criar, modificar ou deletar qualquer especificação funcional ou técnica nos arquivos `CLAUDE.md`, `ROADMAP.md`, `docs/spec.md` ou `design/DESIGN.md`, você é **OBRIGADO** a executar o script `./scripts/trello_sync.py` para espelhar essa exata alteração no Trello correspondente (criando cards no Backlog, atualizando os Critérios de Aceite ou arquivando o que foi cancelado). Documentação e Trello são a mesma entidade.
-
-## Convenções
-- API REST `/api/v1`, JSON, erros padronizados.
-- Diretiva Primária na Fase 4: não alterar sintaxe de código existente.
-
-## Memória Técnica (Bugs e Decisões)
-Vault Obsidian em [`./memoria-tecnica/`](./memoria-tecnica/_index.md), dentro do próprio repo — bugs
-cabeludos resolvidos (causa raiz, não só sintoma) e decisões técnicas tomadas fora desta spec.
-
-- **Antes de investigar um bug**, consultar `memoria-tecnica/bugs/` — pode já ter causa raiz documentada.
-- **Antes de tomar decisão de arquitetura**, consultar `memoria-tecnica/decisoes/` — pode já existir uma decisão ativa sobre o assunto.
-- **Ao resolver um bug não-trivial ou tomar uma decisão fora da spec**, registrar nota nova em `memoria-tecnica/` (templates em `memoria-tecnica/templates/`), linkando às notas relacionadas com a notação `[[nome-da-nota]]`. Critério completo: seção 11 da metodologia.
-
-## Ponteiros
-- Histórias completas: `./docs/spec.md`
-- Blueprint técnico: `./ROADMAP.md`
-- Identidade visual: `./design/tokens.css` + `./design/DESIGN.md`
-- Memória técnica: `./memoria-tecnica/`
+- O contrato compartilhado está em `AGENTS.md`; não o duplique neste arquivo.
+- Os comandos e agentes em `setup/claude/` são compatibilidade temporária até
+  a migração para skills compartilhadas no PR-03. Preserve alterações locais do
+  usuário e não sobrescreva assets sem uma solicitação explícita.
+- Use `CLAUDE.local.md` para preferências pessoais deste repositório. Ele não é
+  versionado e não pode conter segredos, tokens ou dados de clientes.
