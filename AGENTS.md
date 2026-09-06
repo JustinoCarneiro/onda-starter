@@ -19,6 +19,9 @@ criar implementação de negócio.
 | `memoria-tecnica/` | Histórico de bugs e decisões; consulte antes de investigar. |
 | `setup/` | Diagnóstico e instalação do ambiente OndaDev. |
 | `setup/shared/skills/` | Fonte canônica das seis skills OndaDev; sincronizada para `.claude/skills/` e `.agents/skills/` (nunca edite os destinos). |
+| `setup/WORKTREE.md` | Papéis Local/Worktree e transferência segura entre eles. |
+| `.vscode/` | Extensões recomendadas e tarefas Setup/Lint/Test/Build/Run. |
+| `.env.example` | Modelo de ambiente local sanitizado; copie para `.env` (não versionado). |
 | `scripts/` | Automações locais; `trello_sync.py` escreve fora do repositório. |
 | `docker-compose.yml` | PostgreSQL e pgAdmin de desenvolvimento local. |
 
@@ -51,6 +54,9 @@ bash scripts/validate-agent-context.sh
 bash setup/shared/sync-skills.sh --check
 bash setup/tests/skills-drift.sh
 bash setup/tests/skills-frontmatter.sh
+
+# Preparação/verificação de uma árvore de trabalho (git worktree)
+bash setup/worktree-setup.sh --check
 
 # Serviços locais (cria/atualiza containers e volumes)
 docker compose config

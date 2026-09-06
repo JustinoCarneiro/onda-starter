@@ -1,0 +1,9 @@
+{
+  // Extensões recomendadas para o ambiente OndaDev 3.0 (VS Code canônico).
+  // IDs confirmados no Marketplace em 2026-09-05.
+  "recommendations": [
+    "anthropic.claude-code",
+    "openai.chatgpt"
+  ],
+  "unwantedRecommendations": []
+}

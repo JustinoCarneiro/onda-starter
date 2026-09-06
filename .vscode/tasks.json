@@ -1,0 +1,67 @@
+{
+  // Tarefas do ambiente OndaDev 3.0. Este starter não tem build, lint ou
+  // suíte de testes de aplicação: as tarefas abaixo rodam apenas validações
+  // que existem de verdade (ver "Comandos verificados" em AGENTS.md).
+  // As mesmas linhas são espelhadas nas ações do Codex Desktop (setup/codex/).
+  "version": "2.0.0",
+  "options": {
+    "cwd": "${workspaceFolder}"
+  },
+  "presentation": {
+    "reveal": "always",
+    "panel": "dedicated",
+    "clear": true
+  },
+  "tasks": [
+    {
+      "label": "OndaDev: Setup",
+      "detail": "Diagnóstico somente leitura do ambiente (ferramentas e versões).",
+      "type": "shell",
+      "command": "bash setup/check-environment.sh",
+      "problemMatcher": []
+    },
+    {
+      "label": "OndaDev: Lint",
+      "detail": "Valida contexto raiz, links e sintaxe de todos os shell scripts versionados.",
+      "type": "shell",
+      "command": "bash scripts/validate-agent-context.sh && git ls-files '*.sh' | xargs -r -n1 bash -n && bash setup/shared/sync-skills.sh --check && echo '[OK] lint'",
+      "problemMatcher": []
+    },
+    {
+      "label": "OndaDev: Test",
+      "detail": "Testes de drift/hash das skills, frontmatter e contrato de contexto.",
+      "type": "shell",
+      "command": "bash setup/tests/skills-drift.sh && bash setup/tests/skills-frontmatter.sh && bash scripts/validate-agent-context.sh",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "OndaDev: Build",
+      "detail": "Sem build de aplicação neste starter; valida a composição do docker-compose.",
+      "type": "shell",
+      "command": "docker compose config -q && echo '[OK] docker-compose válido — starter sem build de aplicação'",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "OndaDev: Run",
+      "detail": "Sobe PostgreSQL e pgAdmin de desenvolvimento local (docker compose up -d).",
+      "type": "shell",
+      "command": "docker compose up -d",
+      "problemMatcher": []
+    },
+    {
+      "label": "OndaDev: Smoke do instalador",
+      "detail": "Executa setup/install.sh --dry-run em um container Ubuntu 24.04 limpo (requer Docker).",
+      "type": "shell",
+      "command": "bash setup/tests/install-smoke.sh",
+      "problemMatcher": []
+    }
+  ]
+}
