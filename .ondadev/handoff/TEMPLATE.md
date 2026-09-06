@@ -5,8 +5,11 @@
 
       bash scripts/ai-checkpoint.sh
 
-  O script preenche os campos automáticos (branch, commit, status, testes).
-  Os campos de raciocínio (decisões, próximos passos, riscos) são seus.
+  A seção 0 é gerada e atualizada pelo script (entre os marcadores
+  ai-checkpoint:auto). As seções 1 a 9 são suas e o script NÃO as toca depois
+  de current.md existir — rode o script quantas vezes quiser para refrescar os
+  metadados sem perder o que você escreveu.
+
   Nunca cole conteúdo de arquivo, diff completo, valor de variável ou segredo.
 -->
 
@@ -14,33 +17,32 @@
 
 - **Direção:** Claude -> Codex  |  Codex -> Claude
 - **Motivo:** cota a 100%  |  checkpoint a 75%  |  troca planejada  |  outro
-- **Data (UTC):** <preenchido pelo script>
 - **Risco da tarefa:** R0 | R1 | R2
+
+## 0. Metadados (gerado por ai-checkpoint.sh — não editar à mão)
+
+<!-- ai-checkpoint:auto:start -->
+_Rode `bash scripts/ai-checkpoint.sh` para preencher._
+<!-- ai-checkpoint:auto:end -->
 
 ## 1. Objetivo
 
 Uma frase: qual é o resultado observável esperado.
 
-## 2. Estado atual
+## 2. O primeiro agente parou de escrever?
 
-- **Branch:** <preenchido pelo script>
-- **Último commit:** <preenchido pelo script>
-- **Worktree / checkout:** Local  |  worktree `../onda-starter--<tarefa>`
-- **O primeiro agente parou de escrever?** [ ] sim — obrigatório antes do outro começar
+- [ ] sim — obrigatório antes de o outro agente começar a escrever.
 
 ## 3. Arquivos em jogo
 
-<preenchido pelo script: git status --short + diff --stat, só nomes e números>
-
-Comentário curto do humano/agente sobre o que cada mudança pendente representa:
+Comentário curto sobre o que cada mudança pendente da seção 0 representa:
 
 - `caminho/arquivo` — o que está sendo feito ali
 
-## 4. Último teste rodado e resultado
+## 4. Último teste específico da tarefa
 
-<preenchido pelo script: tabela de validações determinísticas + PASS/FAIL>
-
-Testes específicos da tarefa (se houver) e resultado — descreva, não cole log:
+A tabela de validações determinísticas está na seção 0. Aqui, os testes
+próprios da tarefa (se houver) — descreva o resultado, não cole log:
 
 - `<comando>` — PASS | FAIL (<resumo de 1 linha>)
 

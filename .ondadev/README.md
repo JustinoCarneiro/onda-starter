@@ -30,10 +30,13 @@ Não use a estimativa monetária do Claude Code para decidir consumo — a unida
 scripts/ai-checkpoint.sh       # coleta só metadados seguros
 ```
 
-`ai-checkpoint.sh` preenche automaticamente branch, último commit, `git status`,
-`git diff --stat` e o resultado das validações determinísticas. As seções de
-objetivo, decisões, próximos passos e riscos são escritas pelo agente. **Nunca**
-cole conteúdo de arquivo, diff completo, valor de `.env` ou segredo no handoff.
+`ai-checkpoint.sh` gera a **seção 0** de `current.md` (branch, último commit,
+`git status`, `git diff --stat`, `git worktree list` e o resultado das
+validações determinísticas), entre marcadores `ai-checkpoint:auto`. As seções 1
+a 9 (objetivo, decisões, próximo passo, riscos…) são escritas pelo agente e o
+script **não as toca** depois que `current.md` existe — pode rodar de novo à
+vontade para refrescar os metadados sem perder o que escreveu. **Nunca** cole
+conteúdo de arquivo, diff completo, valor de `.env` ou segredo no handoff.
 
 A troca de agente no failover acontece **no mesmo checkout**: a sessão do
 primeiro agente termina (cota) e o segundo assume o mesmo diretório de trabalho.
