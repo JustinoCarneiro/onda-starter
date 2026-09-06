@@ -104,12 +104,17 @@ Codex não precisa de OPENAI_API_KEY para o fluxo normal de assinatura.
 ## 5. VS Code
 
 - [ ] Instalar ou abrir o VS Code.
-- [ ] Confirmar a extensão anthropic.claude-code.
-- [ ] Instalar a extensão oficial do Codex pelo Marketplace.
+- [ ] Confirmar a extensão `anthropic.claude-code`.
+- [ ] Confirmar a extensão oficial do Codex `openai.chatgpt`
+  ("Codex – OpenAI's coding agent", publisher OpenAI).
 - [ ] Abrir um projeto e validar terminal, Git, Claude e Codex.
 
-O ID da extensão do Codex será registrado no repositório somente após essa
-confirmação, no PR-04.
+Ambos os IDs estão versionados em `.vscode/extensions.json` (confirmados no
+Marketplace em 2026-09-05, PR-04). O VS Code oferece instalá-los ao abrir o
+repositório; pela linha de comando: `code --install-extension openai.chatgpt`.
+As tarefas Setup/Lint/Test/Build/Run estão em `.vscode/tasks.json`. O ambiente
+local do Codex (`.codex/`) é gerado pelo painel do Codex Desktop — veja
+`setup/codex/PROMPT-AMBIENTE-LOCAL.md`.
 
 ## 6. Conexão SSH com GitHub
 

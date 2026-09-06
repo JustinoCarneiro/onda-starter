@@ -22,6 +22,15 @@ build/
 
 # Arquivos de IDE
 .idea/
-.vscode/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/tasks.json
 *.swp
 CLAUDE.local.md
+
+# Ambiente local do Codex gerado pelo painel do Codex Desktop:
+# versionar config e scripts, nunca credenciais ou estado de sessão.
+.codex/auth.json
+.codex/*.log
+.codex/sessions/
+.codex/cache/
