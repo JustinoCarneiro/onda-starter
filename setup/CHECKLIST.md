@@ -159,7 +159,35 @@ Resultado esperado neste estágio:
 - Extensão Codex confirmada posteriormente no PR-04.
 - ANTHROPIC_API_KEY ausente, salvo decisão explícita de usar API.
 
-## 8. Referências oficiais
+## 8. CI e hooks locais
+
+O CI (`.github/workflows/ci.yml`) roda sem segredos: validações determinísticas
+(`scripts/ci-report.sh`), smoke do instalador e secret scanning via pre-commit.
+Permissão mínima (`contents: read`); actions de terceiros fixadas por SHA.
+
+Rodar o mesmo conjunto localmente:
+
+~~~bash
+bash scripts/ci-report.sh
+~~~
+
+Hooks de commit (opcional, recomendado):
+
+~~~bash
+pipx install pre-commit   # ou: pip install --user pre-commit
+pre-commit install
+pre-commit run --all-files
+~~~
+
+### Ajustes no GitHub que exigem você (fora do repositório)
+
+- [ ] Habilitar **secret scanning** e **push protection** em Settings → Code security.
+- [ ] Proteger `master`: exigir os checks `Validações determinísticas`,
+  `Smoke do instalador` e `Secret scanning` antes do merge.
+- [ ] Conferir em Settings → Actions que o `GITHUB_TOKEN` tem permissão de
+  leitura por padrão (o workflow já declara `contents: read`).
+
+## 9. Referências oficiais
 
 - [Claude Code: instalação e repositório apt assinado](https://code.claude.com/docs/en/setup)
 - [Docker Engine: repositório apt](https://docs.docker.com/engine/install/ubuntu/)
