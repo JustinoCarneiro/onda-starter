@@ -1,76 +1,155 @@
-# Onda Dev — Checklist de nova máquina
+# OndaDev - Checklist de nova máquina
 
-Após rodar `bash setup/install.sh`, complete os passos manuais abaixo.
+Este checklist acompanha o instalador guiado para Ubuntu/Debian. Ele separa
+instalação, autenticação e permissões para evitar mudanças silenciosas na
+máquina.
 
----
+## 1. Revisar antes de instalar
 
-## Automatizado pelo install.sh ✅
+Execute sempre o modo sem escrita primeiro:
 
-- [x] Git instalado e configurado (nome + e-mail)
-- [x] Node.js 20 via nvm
-- [x] Docker Engine
-- [x] GitHub CLI (`gh`)
-- [x] Claude Code CLI
-- [x] Skills copiadas para `~/.claude/commands/`
-- [x] Agentes copiados para `~/.claude/agents/`
+~~~bash
+bash setup/install.sh --dry-run
+~~~
 
----
+Para instalar tudo em uma máquina nova:
 
-## Passos manuais
+~~~bash
+bash setup/install.sh
+~~~
 
-### 1. Autenticar o Claude Code
-```bash
+Para instalar apenas um componente:
+
+~~~bash
+bash setup/install.sh --component node
+bash setup/install.sh --component claude
+~~~
+
+Componentes aceitos: git, node, docker, gh, claude, skills e all.
+
+O instalador não autentica contas, não instala extensões do VS Code e não
+configura qualquer chave de API.
+
+## 2. Componentes instalados
+
+- [ ] Git
+- [ ] Node.js 22 ou superior, pelo nvm
+- [ ] Docker Engine pelo repositório apt assinado
+- [ ] GitHub CLI pelo repositório oficial
+- [ ] Claude Code pelo repositório apt assinado, canal stable
+- [ ] Comandos e agentes Claude legados, preservando alterações locais por padrão
+
+O instalador não sobrescreve assets legados diferentes em ~/.claude sem a
+opção explícita:
+
+~~~bash
+bash setup/install.sh --component skills --overwrite-legacy-assets
+~~~
+
+Essa compatibilidade é temporária: o PR-03 migrará esses arquivos para skills
+compartilhadas de Claude e Codex.
+
+## 3. Docker sem sudo é opt-in
+
+Pertencer ao grupo docker equivale, na prática, a uma permissão privilegiada
+na máquina. Por isso, o instalador não altera o grupo por padrão.
+
+Caso você entenda esse impacto e queira usar Docker sem sudo:
+
+~~~bash
+bash setup/install.sh --component docker --add-user-to-docker-group
+~~~
+
+Depois, encerre e reabra a sessão do sistema.
+
+Se usar Docker Desktop no Linux com o contexto `desktop-linux`, execute Docker
+como o seu usuário, sem `sudo`: esse contexto fica em `~/.docker` e o root não
+o enxerga. O smoke test reconhece esse cenário automaticamente, mesmo se a
+opção `--sudo` for informada.
+
+## 4. Autenticar manualmente
+
+### Claude Code
+
+~~~bash
 claude auth login
-```
-Abre o browser para autenticação com a conta Anthropic.
+~~~
 
-### 2. Autenticar o GitHub CLI
-```bash
+Use a conta com assinatura Claude Pro. Não defina ANTHROPIC_API_KEY como
+atalho: isso pode fazer o Claude Code usar cobrança de API separada.
+
+### GitHub CLI
+
+~~~bash
 gh auth login
-```
-Escolha **GitHub.com → HTTPS → Login with a web browser**.
+~~~
 
-### 3. Gerar Personal Access Token (PAT)
-Acesse **github.com/settings/tokens → Generate new token (classic)**
+Escolha GitHub.com e login no navegador. Prefira os fluxos de autorização do
+gh a criar um Personal Access Token classic amplo. Quando um token for
+realmente indispensável, conceda apenas os escopos estritamente necessários e
+guarde-o em um gerenciador de senhas.
 
-Escopos obrigatórios:
-- [x] `repo` — leitura e escrita em repositórios
-- [x] `workflow` — push de arquivos `.github/workflows/`
+### Codex
 
-Salve o token num gerenciador de senhas — ele não é exibido novamente.
+Abra o Codex CLI ou o aplicativo desktop e entre com a conta ChatGPT Plus. O
+Codex não precisa de OPENAI_API_KEY para o fluxo normal de assinatura.
 
-### 4. VSCode
-- Instalar o VSCode: **code.visualstudio.com**
-- Instalar a extensão **Claude Code** (Anthropic) na aba de extensões
+## 5. VS Code
 
-### 5. SSH para o GitHub (opcional, mas recomendado)
-Evita digitar credenciais a cada push:
-```bash
-ssh-keygen -t ed25519 -C "seu@email.com"
-cat ~/.ssh/id_ed25519.pub   # copie e adicione em github.com/settings/keys
-ssh -T git@github.com       # teste a conexão
-```
+- [ ] Instalar ou abrir o VS Code.
+- [ ] Confirmar a extensão anthropic.claude-code.
+- [ ] Instalar a extensão oficial do Codex pelo Marketplace.
+- [ ] Abrir um projeto e validar terminal, Git, Claude e Codex.
 
----
+O ID da extensão do Codex será registrado no repositório somente após essa
+confirmação, no PR-04.
 
-## Verificação final
+## 6. Conexão SSH com GitHub
 
-```bash
-git --version          # git 2.x
-node --version         # v20.x
-docker --version       # 29.x ou superior
-gh --version           # 2.x
-claude --version       # deve responder sem erro
-```
+Opcional, mas recomendada para evitar credenciais repetidas:
 
-Abra um projeto qualquer no VSCode e verifique que a extensão Claude Code aparece na barra lateral.
+~~~bash
+ssh-keygen -t ed25519 -C "seu-email"
+ssh -T git@github.com
+~~~
 
----
+Adicione a chave pública à sua conta GitHub pelo painel de chaves SSH.
 
-## Atualizar as skills numa máquina existente
+## 7. Verificação final
 
-Quando as skills em `setup/claude/` forem atualizadas no repositório, reaplique com:
-```bash
-cp setup/claude/commands/*.md ~/.claude/commands/
-cp setup/claude/agents/*.md ~/.claude/agents/
-```
+~~~bash
+bash setup/check-environment.sh
+~~~
+
+O verificador é somente leitura. Ele consulta as versões das ferramentas,
+confirma se há autenticação do GitHub CLI sem exibir a conta e reporta apenas a
+presença ou ausência de ANTHROPIC_API_KEY, nunca o valor.
+
+Para validar o modo dry-run em um Ubuntu 24.04 limpo, com o repositório montado
+somente para leitura:
+
+~~~bash
+bash setup/tests/install-smoke.sh
+~~~
+
+Se o seu usuário ainda não puder acessar o daemon Docker, a variante explícita
+é:
+
+~~~bash
+bash setup/tests/install-smoke.sh --sudo
+~~~
+
+Resultado esperado neste estágio:
+
+- Git, Node, npm, Docker, gh, Claude Code, Codex CLI e VS Code detectados.
+- Node 22 ou superior após o PR-01 ser aplicado numa máquina nova.
+- Extensão Claude Code detectada.
+- Extensão Codex confirmada posteriormente no PR-04.
+- ANTHROPIC_API_KEY ausente, salvo decisão explícita de usar API.
+
+## 8. Referências oficiais
+
+- [Claude Code: instalação e repositório apt assinado](https://code.claude.com/docs/en/setup)
+- [Docker Engine: repositório apt](https://docs.docker.com/engine/install/ubuntu/)
+- [GitHub CLI: instalação Linux](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
+- [Codex CLI](https://learn.chatgpt.com/pt-BR/docs/codex/cli)
