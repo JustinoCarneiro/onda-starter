@@ -16,6 +16,7 @@ criar implementação de negócio.
 | `docs/architecture/adr/` | Decisões arquiteturais ativas. |
 | `docs/security/` | Classificação de dados, ameaças e controles. |
 | `docs/` | Metodologia, design system, QA e métricas reutilizáveis. |
+| `docs/operacao-dia-a-dia.md` | Guia prático do fluxo diário (fases, risco, cota, DoD, Jira). |
 | `memoria-tecnica/` | Histórico de bugs e decisões; consulte antes de investigar. |
 | `setup/` | Diagnóstico e instalação do ambiente OndaDev. |
 | `setup/shared/skills/` | Fonte canônica das seis skills OndaDev; sincronizada para `.claude/skills/` e `.agents/skills/` (nunca edite os destinos). |
