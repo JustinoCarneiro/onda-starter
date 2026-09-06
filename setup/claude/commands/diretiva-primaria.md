@@ -5,8 +5,7 @@ description: Reforca a regra imutavel do terminal.
 
 > ⚠️ **Comando legado — em depreciação (OndaDev 3.0).** Migrou para a skill
 > **`ondadev-build`** (`setup/shared/skills/ondadev-build/`, referência
-> `references/diretiva-primaria.md`). Este wrapper continua funcionando durante o
-> piloto e será removido após o PR-08. Prefira `/ondadev-build` (Claude) ou a
+> `references/diretiva-primaria.md`). Este wrapper continua funcionando com aviso de depreciação e será removido após a retro de rollout (ADR 0002). Prefira `/ondadev-build` (Claude) ou a
 > skill `ondadev-build` (Codex).
 
 **Diretiva Primária:**

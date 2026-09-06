@@ -54,7 +54,8 @@ bash setup/install.sh --component skills --overwrite-legacy-assets
 
 Essa compatibilidade é temporária: os comandos legados já foram consolidados nas
 seis skills canônicas de `setup/shared/skills/` (PR-03) e carregam aviso de
-depreciação. Serão removidos após o piloto (PR-08).
+depreciação. Serão removidos após a retro leve de rollout (ver
+`docs/architecture/adr/0002-capacidade-sob-orcamento-fixo.md`, ponto 2).
 
 ## 3. Docker sem sudo é opt-in
 
