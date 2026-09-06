@@ -46,9 +46,12 @@ onda_tmp="$(mktemp -d)"
 trap 'rm -rf "$onda_tmp"' EXIT
 
 # --- metadados de git (só porcelanas seguras) -------------------------------
+# O ASSUNTO do último commit é omitido de propósito: pode carregar um segredo
+# colado por engano na mensagem. Só hash + data. Nomes de arquivo ainda
+# aparecem via git status / git diff --stat abaixo — ver o aviso no bloco 0.
 onda_date="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 onda_branch="$(git branch --show-current 2>/dev/null || echo '(detached)')"
-onda_commit="$(git log -1 --format='%h %s (%cI)' 2>/dev/null || echo '(sem commits)')"
+onda_commit="$(git log -1 --format='%h (%cI)' 2>/dev/null || echo '(sem commits)')"
 
 onda_track='sem upstream configurado'
 if git rev-parse --abbrev-ref '@{u}' >/dev/null 2>&1; then
@@ -99,10 +102,15 @@ onda_run_check() {
 
 # --- bloco automático (só a seção 0, entre os marcadores) -------------------
 {
-  if [ -n "${ANTHROPIC_API_KEY-}" ]; then
-    echo '> ⚠️ ANTHROPIC_API_KEY está DEFINIDA no ambiente. Não use como fallback automático de cota — o Claude Code pode cobrar via API. Ver .ondadev/README.md.'
+  if [ -n "${ANTHROPIC_API_KEY-}" ] || [ -n "${OPENAI_API_KEY-}" ]; then
+    onda_keys=''
+    [ -n "${ANTHROPIC_API_KEY-}" ] && onda_keys='ANTHROPIC_API_KEY'
+    [ -n "${OPENAI_API_KEY-}" ] && onda_keys="${onda_keys:+$onda_keys / }OPENAI_API_KEY"
+    echo "> ⚠️ ${onda_keys} DEFINIDA(S) no ambiente. Não use como fallback automático de cota — o agente pode cobrar via API. Ver .ondadev/README.md."
     echo
   fi
+  echo '> ℹ️ Este bloco inclui nomes de arquivo (git status / diff --stat). Não coloque segredo em nome de arquivo nem no assunto de commit.'
+  echo
   echo "_Atualizado (UTC): ${onda_date}_"
   echo
   echo "- **Branch:** ${onda_branch}  ·  ${onda_track}"
