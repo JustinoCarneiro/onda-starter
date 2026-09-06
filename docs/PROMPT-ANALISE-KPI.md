@@ -91,8 +91,8 @@ Repositório / docs:
    reconstruir (marcando o que é retroativo/estimado).
 4. Se o humano pedir, gere também um painel HTML de página única (tema claro/escuro, sem libs
    externas) com os KPIs de topo + as tabelas por lente.
-Não altere código do projeto. Não commite. Se este repo tiver a "Regra de Ouro" de sincronizar
-spec com Trello/Jira, note que um doc de análise NÃO é spec e não dispara os scripts.
+Não altere código do projeto. Não commite. Um doc de análise NÃO é spec: não atualiza o quadro
+Jira nem dispara qualquer script.
 
 ## RESUMO DO PADRÃO (fallback — use só se não houver docs/METRICAS-KPI.md)
 Conjunto mínimo: 4 datas; lead/cycle time + flow efficiency; on-time + folga; horas por fase;

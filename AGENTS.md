@@ -26,24 +26,25 @@ criar implementação de negócio.
 | `.pre-commit-config.yaml` | Hooks locais (gitleaks + verificações OndaDev). |
 | `.gitleaks.toml` | Regras padrão do gitleaks + allowlist de material público de verificação. |
 | `.env.example` | Modelo de ambiente local sanitizado; copie para `.env` (não versionado). |
-| `scripts/` | Automações locais; `trello_sync.py` escreve fora do repositório. |
+| `scripts/` | Automações locais; `jira_browser/` configura o quadro Jira via navegador. |
 | `docker-compose.yml` | PostgreSQL e pgAdmin de desenvolvimento local. |
 
 ## Autoridade da informação
 
 | Assunto | Fonte canônica | Papel das demais fontes |
 | --- | --- | --- |
-| Escopo, histórias e aceite | `docs/product/spec.md` | Trello e GitHub apenas refletem o trabalho. |
+| Escopo, histórias e aceite | `docs/product/spec.md` | Jira e GitHub apenas refletem o trabalho. |
 | Ordem técnica e progresso | `ROADMAP.md` | O board é uma projeção visual de status. |
 | Decisão de arquitetura | `docs/architecture/adr/` | `memoria-tecnica/decisoes/` preserva contexto histórico. |
 | Dados, ameaças e controles | `docs/security/` | Nenhuma tarefa pode contrariar esta classificação. |
 | Código e histórico versionado | Git | GitHub registra PRs, revisão e CI quando utilizados. |
-| Trabalho externo | Trello/GitHub | Nunca sobrescreve a verdade local sem decisão explícita. |
+| Trabalho externo | Jira/GitHub | Nunca sobrescreve a verdade local sem decisão explícita. |
 
-Trello é uma projeção, nunca o bloqueio da edição local. Execute
-`scripts/trello_sync.py` somente quando a sincronização externa fizer parte da
-tarefa; falhas de rede, token ou API devem ser registradas e não podem apagar
-nem impedir mudanças locais. Exclusões remotas exigem confirmação explícita.
+Jira é uma projeção do status, nunca o bloqueio da edição local. O quadro é
+configurado uma vez por projeto com `scripts/jira_browser/` (colunas, limites de
+WIP, campos); a gestão de issues no dia a dia é manual na UI do Jira. Falhas de
+rede, login ou API devem ser registradas e não podem apagar nem impedir mudanças
+locais. Exclusões de issue exigem confirmação explícita.
 
 ## Comandos verificados
 
@@ -72,8 +73,8 @@ bash scripts/ai-checkpoint.sh --stdout
 docker compose config
 docker compose up -d
 
-# Ajuda da integração Trello; não escreve fora do repositório
-python3 scripts/trello_sync.py --help
+# Automação do quadro Jira (setup one-time via navegador); ver o README
+cat scripts/jira_browser/README.md
 ```
 
 Não há ainda build, lint ou suíte de testes de uma aplicação neste starter.

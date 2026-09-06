@@ -6,7 +6,7 @@
 > lacunas marcadas, não zeros.
 >
 > Padrão/fórmulas: [`../docs/METRICAS-KPI.md`](../docs/METRICAS-KPI.md). Este documento **não é
-> spec** — não dispara sincronização com Trello/Jira.
+> spec** — não dispara atualização do quadro Jira.
 
 ---
 
