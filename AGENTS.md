@@ -139,3 +139,19 @@ Riscos, bloqueios e próximos passos: …
 Para R1/R2, peça revisão focada em comportamento, segurança e testes; não use
 o revisor apenas para estilo. Procedimentos longos pertencem a skills ou à
 documentação apontada acima, não a este contexto automático.
+
+### Cartão de próximo passo (obrigatório ao fechar uma unidade)
+
+Toda tarefa concluída termina com um cartão curto — o operador não precisa
+lembrar a regra:
+
+- **Risco:** R0 | R1 | R2, com uma linha do porquê.
+- **Ação:**
+  - R0 → sem revisão cruzada; pode mergear.
+  - R1 → abrir o **outro** agente no repositório, colar a síntese acima, pedir
+    revisão de comportamento/segurança/testes; depois aplicar o retorno e mergear.
+  - R2 → revisão cruzada **e** aprovação humana explícita antes do merge.
+- **Bloco pronto para colar:** a síntese de 5 linhas acima, preenchida.
+- **Se a janela de cota estiver ≥ 90%:** em vez do acima, escrever o checkpoint
+  (`bash scripts/ai-checkpoint.sh`, preencher `.ondadev/handoff/current.md`) e
+  indicar qual agente abrir para continuar a **mesma** tarefa.

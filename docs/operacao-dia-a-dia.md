@@ -66,6 +66,11 @@ Na dúvida entre R1 e R2, trate como R2.
    Decisões/ADRs: …
    Riscos, bloqueios e próximos passos: …
    ```
+5. **Cartão de próximo passo.** Ao fechar cada módulo/PR, o agente termina com um
+   cartão dizendo o risco (R0/R1/R2 + porquê), a ação exata (mergear · abrir o
+   outro agente para revisão · revisão cruzada + sua aprovação) e a síntese
+   pronta para colar — assim você não precisa lembrar a regra. Contrato:
+   `AGENTS.md` › "Revisão e handoff entre agentes" › "Cartão de próximo passo".
 
 ## 5. Cota e failover entre agentes
 
