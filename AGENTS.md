@@ -152,6 +152,10 @@ lembrar a regra:
     revisão de comportamento/segurança/testes; depois aplicar o retorno e mergear.
   - R2 → revisão cruzada **e** aprovação humana explícita antes do merge.
 - **Bloco pronto para colar:** a síntese de 5 linhas acima, preenchida.
-- **Se a janela de cota estiver ≥ 90%:** em vez do acima, escrever o checkpoint
-  (`bash scripts/ai-checkpoint.sh`, preencher `.ondadev/handoff/current.md`) e
-  indicar qual agente abrir para continuar a **mesma** tarefa.
+- **Cota da janela** — siga os limiares de `.ondadev/README.md`: a **75%** rode
+  `bash scripts/ai-checkpoint.sh` e continue; a **90%** feche só a unidade
+  atômica em andamento e **não comece outra** (ainda não é handoff); a **100%**
+  faça o handoff de failover completo — checkpoint, seções de raciocínio de
+  `.ondadev/handoff/current.md`, marcar "o primeiro agente parou?" e **encerrar
+  a sessão** antes de o operador abrir o outro agente para continuar a **mesma**
+  tarefa (sem escrita concorrente).
