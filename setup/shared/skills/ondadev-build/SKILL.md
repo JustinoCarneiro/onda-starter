@@ -54,9 +54,10 @@ log de espera/impedimento do mesmo arquivo.
 Termine a resposta com o cartão do `AGENTS.md` (seção "Revisão e handoff entre
 agentes"): **risco** (R0/R1/R2 + o porquê em uma linha), **ação exata** (mergear
 · abrir o outro agente para revisão de diff · revisão cruzada + aprovação
-humana) e a **síntese de 5 linhas** pronta para colar. Se a janela de cota
-estiver ≥ 90%, emita o handoff de failover (`ai-checkpoint.sh` + `current.md`)
-em vez disso.
+humana) e a **síntese de 5 linhas** pronta para colar. Sobre cota: a **90%**
+feche só a unidade atômica em andamento (não comece outra); o handoff de
+failover (`ai-checkpoint.sh` + `current.md`, encerrando a sessão antes de
+trocar) é a **100%** — limiares em `.ondadev/README.md`.
 
 ## Gates
 
