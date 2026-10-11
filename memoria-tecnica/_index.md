@@ -58,4 +58,5 @@ limpo. Playbooks maiores em [`../docs/`](../docs/).
 - [`handoff-infra-para-conta-do-cliente.md`](../docs/handoff-infra-para-conta-do-cliente.md)
 - [`deploy-vercel-sem-seat-no-time-do-cliente.md`](../docs/deploy-vercel-sem-seat-no-time-do-cliente.md)
 - [`migracoes-payload-postgres.md`](../docs/migracoes-payload-postgres.md)
+- [`cota-e-praticas-claude-codex.md`](../docs/cota-e-praticas-claude-codex.md)
 - [`modal-lightbox-acessivel.md`](../docs/modal-lightbox-acessivel.md)
