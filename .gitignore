@@ -39,3 +39,8 @@ CLAUDE.local.md
 
 # Handoff de failover: o template é versionado; a instância viva não.
 .ondadev/handoff/current.md
+
+# Permissões do Claude Code aprovadas no uso diário se acumulam aqui (caminhos de
+# /tmp, diretórios extras); não versionar. Projeto que queira configuração
+# compartilhada deliberada pode usar `git add -f .claude/settings.json`.
+.claude/settings.json
