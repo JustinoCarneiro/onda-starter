@@ -28,6 +28,15 @@ Puxe o módulo de maior risco primeiro (regra do coração). Para cada módulo:
 1. **Red** — escreva os testes com mocks; eles falham.
 2. **Green** — só o código necessário para passar.
 3. **Refactor** — DRY e otimização sem quebrar os testes.
+
+**Teto de passos por turno** (`docs/architecture/adr/0005-teto-de-passos-em-turnos-autonomos.md`):
+Red, Green e Refactor são pontos de checkpoint, não uma cadeia ininterrupta.
+Use 12 chamadas como ponto-alvo de pausa e 15 como teto provisório: ao chegar
+a 12, não comece outra unidade; conclua a chamada em andamento, rode
+`ai-checkpoint.sh`, relate o que passou e o que falta, e aguarde confirmação
+para continuar — mesmo que a fase não tenha convergido. Não exceda 15 chamadas
+no turno autônomo. Um turno sem pausa nunca dá chance aos limiares de
+75/90/100% de `.ondadev/README.md` de serem medidos a tempo.
 4. **Segurança** — nos módulos de risco (pagamento, auth, permissões, dados
    sensíveis), rode o agente `revisor-seguranca`. Para logs de erro pesados,
    isole a investigação no agente `testador-tdd`.
