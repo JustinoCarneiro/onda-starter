@@ -140,6 +140,10 @@ Para R1/R2, peça revisão focada em comportamento, segurança e testes; não us
 o revisor apenas para estilo. Procedimentos longos pertencem a skills ou à
 documentação apontada acima, não a este contexto automático.
 
+O pedido de revisão cruzada deve partir do diff e ter escopo e teto explícitos.
+Consulte o [ADR 0004](docs/architecture/adr/0004-protocolo-de-revisao-cruzada-entre-agentes.md)
+para os limites, as exceções de escopo e o critério de contexto.
+
 ### Cartão de próximo passo (obrigatório ao fechar uma unidade)
 
 Toda tarefa concluída termina com um cartão curto — o operador não precisa
