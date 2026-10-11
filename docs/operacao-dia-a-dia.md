@@ -75,7 +75,11 @@ Na dúvida entre R1 e R2, trate como R2.
 ## 5. Cota e failover entre agentes
 
 Monitore a janela de uso: Claude `/usage`, Codex `/status`. A unidade é **janela
-de uso aceita**, não o preço em dólar.
+de uso aceita**, não o preço em dólar. A janela é **da conta, não do
+projeto**: uma revisão cruzada grande aqui consome o orçamento que outro
+projeto vai precisar nas próximas horas/dias — consulte o
+[ADR 0004](architecture/adr/0004-protocolo-de-revisao-cruzada-entre-agentes.md)
+antes de montar o pedido.
 
 | Uso da janela | Ação |
 | --- | --- |

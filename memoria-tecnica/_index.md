@@ -28,6 +28,8 @@ critério completo de quando vale (e quando não vale) criar uma nota aqui.
 ## Decisões
 *(idem)*
 
+- [[revisao-cruzada-orcamento-fixo]] — contagem local de 26 sessões em 11 projetos pelo último `task_complete` encerrado por limite de uso; critérios e protocolo no ADR 0004.
+
 ---
 
 ## Notas promovidas de projetos (reaproveitáveis entre clientes)
