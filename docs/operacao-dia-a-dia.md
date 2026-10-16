@@ -79,7 +79,8 @@ de uso aceita**, não o preço em dólar. A janela é **da conta, não do
 projeto**: uma revisão cruzada grande aqui consome o orçamento que outro
 projeto vai precisar nas próximas horas/dias — consulte o
 [ADR 0004](architecture/adr/0004-protocolo-de-revisao-cruzada-entre-agentes.md)
-antes de montar o pedido.
+antes de montar o pedido. Que modelo, esforço e tier usar por tipo de tarefa
+está no [ADR 0006](architecture/adr/0006-politica-de-modelo-esforco-e-tier.md).
 
 | Uso da janela | Ação |
 | --- | --- |
