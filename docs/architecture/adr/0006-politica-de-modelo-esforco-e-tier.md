@@ -51,9 +51,13 @@ logs de sessão do Codex. Resultados:
 
    O Claude Code usa Sonnet como modelo padrão da conta, porque o padrão do
    plano é Opus.
-3. **Conversas curtas.** Uma conversa por tarefa ou módulo. Não reabrir
-   conversa com mais de um dia ou com contexto por chamada acima de ~150 mil
-   tokens: rodar `ai-checkpoint.sh` e abrir conversa nova.
+3. **Conversas curtas.** Uma conversa por tarefa ou módulo. Não continuar nem
+   reabrir conversa com mais de um dia ou com contexto por chamada acima de
+   ~150 mil tokens: rodar `ai-checkpoint.sh` e abrir conversa nova com um
+   resumo curto. Compactar não substitui isso: a conversa mais longa da
+   leitura 1 foi compactada quatro vezes e manteve contexto mediano de 166 mil.
+   A regra vale para as duas ferramentas; no Claude Code, retomar uma conversa
+   grande depois de a hora do cache expirar reescreve o contexto inteiro.
 4. **Uma sessão de escrita longa por ferramenta.** A janela é da conta;
    sessões longas em paralelo somam. Exploração e revisão escopada por diff
    (ADR 0004) não entram na conta.
@@ -74,6 +78,10 @@ logs de sessão do Codex. Resultados:
   pontos de índice, e o Codex `medium` custa ~33% menos que o `xhigh` por ~2
   pontos. São números de terceiros, não medidos aqui; se o retrabalho subir,
   sobe-se o esforço pontualmente, não como padrão.
+- A leitura 1 (abaixo) mediu que o esforço mexe diretamente em ~11% do custo
+  do Claude (a saída); o grosso é leitura e escrita de cache de contexto grande.
+  O efeito indireto do esforço (menos passos) não foi medido. Por isso a
+  conversa curta pesa mais que a escolha de esforço.
 - É convenção documentada. As configurações ficam por usuário
   (`~/.codex/config.toml`, `~/.claude/settings.json`); exemplos estão no
   relatório de pesquisa.
@@ -98,6 +106,49 @@ logs de sessão do Codex. Resultados:
 - **Esperar um A/B controlado antes de decidir:** preterida — a medição passiva
   já sustenta o que é barato e reversível; o A/B serve para calibrar os números.
 
+## Leituras da medição
+
+### Leitura 1 — 2026-10-17
+
+Fontes: log da status line e transcritos do Claude Code (deduplicados por id de
+mensagem, com subagentes) e logs de sessão do Codex (deduplicados entre forks).
+Cobre ~30 h de política no Codex; o Claude ainda não tem dado sob a política,
+porque o esforço dele só foi ajustado em 2026-10-17 e a cota semanal estava
+quase esgotada desde 16/10.
+
+- **Codex, preço por token:** tier padrão com `gpt-6.1-sol` `medium` consumiu
+  2,0 pontos da janela de 5h por milhão de tokens (3,0 em `gpt-6-sol` `medium`;
+  5 a 11 nas medições com `xhigh`, `priority` e `ultra`).
+- **Codex, volume:** cada janela de 5h passou a consumir ~50 milhões de tokens
+  (antes 16 a 33), e três janelas chegaram a 100% em ~30 h. **O gatilho (a)
+  disparou.** O limite semanal foi de 16% a 59% no mesmo período; cada janela
+  de 5h cheia custa ~20 pontos semanais.
+- **Codex, causa:** uma única conversa (34 turnos, 817 chamadas, 4 compactações)
+  concentrou 75% dos tokens, com contexto mediano de 166 mil e máximo de 342
+  mil; uma segunda, aberta no mesmo minuto, outros 15%. Na semana, 65% dos
+  tokens estavam em chamadas com mais de 150 mil de contexto. A regra do item 3
+  existia e não foi seguida; por isso foi reforçada.
+- **Codex, subagentes:** 10 threads, 4% dos tokens, com `features.multi_agent =
+  false` no config. O app desktop não respeita a flag; a contenção do ADR 0004
+  (escopo por diff, sem fan-out no pedido) continua necessária.
+- **Claude, calibração:** a semana de 10 a 17/10 chegou a 98%, equivalente a
+  ~US$ 218 de custo de lista (~US$ 2,2 por ponto semanal; 0,25 a 0,32 por ponto
+  na janela de 5h), o que confirma a calibração do Contexto. A estimativa vem
+  dos transcritos, calibrada contra o custo registrado pelo Claude Code
+  (razão 0,47; 5 sessões).
+- **Claude, composição:** 89% do custo é cache (62% leitura, 27% escrita) e 11%
+  é saída. 64% do custo está em chamadas com mais de 400 mil de contexto. Houve
+  25 reescritas de cache de 150 mil tokens ou mais (~14% do custo); das 19 na
+  conversa principal, 16 vieram depois de uma pausa de mais de uma hora, com o
+  cache expirado. Um teto hipotético de 150 mil por chamada
+  reduziria o custo em até 49% (limite superior: ignora o custo de abrir
+  conversas novas). Subagentes foram 7% do custo.
+- **Claude, janelas de 5h:** duas acima de 90%, ambas na mesma noite com três
+  sessões em paralelo (item 4), antes da política.
+- **Não avaliados:** gatilhos (b) e (c).
+
+Próxima leitura: após uma semana completa do Claude sob a política.
+
 ## Estado
 
-Aceita — 2026-10-16.
+Aceita — 2026-10-16. Item 3 reforçado e leitura 1 registrada em 2026-10-17.
